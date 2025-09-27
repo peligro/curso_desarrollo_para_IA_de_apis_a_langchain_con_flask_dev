@@ -21,6 +21,7 @@ def create_app():
     from routes.health.main import health_bp
     from routes.formularios.main import formularios_bp
     from routes.mistral.main import mistral_bp
+    from routes.gemini.main import gemini_bp
 
     
     app.register_blueprint(main_bp)
@@ -31,6 +32,7 @@ def create_app():
     app.register_blueprint(health_bp)
     app.register_blueprint(formularios_bp)
     app.register_blueprint(mistral_bp)
+    app.register_blueprint(gemini_bp)
 
 
     # Manejador personalizado para error 404

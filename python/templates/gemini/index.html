@@ -1,0 +1,21 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Diseño {%endblock%}
+<!---->
+{% block content %}
+<h1>Gemini AI</h1>
+<p>https://ai.google.dev/gemini-api/docs?hl=es-419</p>
+<ul>
+    <li>
+        <a href="{{url_for('gemini.gemini_prompt')}}">Prompt básico</a>
+    </li>
+    <li>
+        <a href="{{url_for('gemini.gemini_consulta')}}">Consulta SQL desde la IA</a>
+    </li>
+    <li>
+        <a href="{{url_for('gemini.gemini_traductor')}}">Traductor de textos</a>
+    </li>
+    <li>
+        <a href="{{url_for('gemini.gemini_sentimiento')}}">Análisis de sentimiento</a>
+    </li>
+    
+</ul>
+{% endblock %}
