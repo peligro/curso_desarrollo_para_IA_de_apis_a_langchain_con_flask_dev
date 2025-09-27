@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash
 from http import HTTPStatus
-from integraciones.gemini import get_consulta_simple_gemini, get_consulta_sql_gemini, get_traduccion_gemini, get_analisis_sentimiento_gemini
+from integraciones.gemini import get_consulta_simple_gemini, get_consulta_sql_gemini, get_traduccion_gemini, get_analisis_sentimiento_gemini, get_consulta_imagen_gemini
 import time
 
 
@@ -131,3 +131,35 @@ def gemini_sentimiento():
         'respuesta':''
     }
     return render_template('gemini/sentimiento.html', **data)
+
+
+
+@gemini_bp.route('/gemini/reconocimiento', methods=['GET', 'POST'])
+def gemini_reconocimiento():
+    if request.method =='POST':
+        url = request.form.get('url', '').strip()
+        prompt = request.form.get('url', '').strip()
+        if not prompt or not url:
+            flash("Todos los campos son obligatorios.", "danger")
+            return render_template('gemini/reconocimiento.html'), HTTPStatus.BAD_REQUEST
+        # Inicio del timer
+        start_time = time.time()
+
+        # Llamada a la API de gemini
+        respuesta = get_consulta_imagen_gemini(prompt, url)
+
+        # Fin del timer
+        end_time = time.time()
+        
+        # Calcular el tiempo transcurrido en milisegundos
+        tiempo_transcurrido = round(end_time - start_time, 2)
+        data = {
+        'tiempo_transcurrido': tiempo_transcurrido,
+        'respuesta':respuesta
+        }
+        return render_template('gemini/reconocimiento.html', **data)
+    data = {
+        'tiempo_transcurrido': '',
+        'respuesta':''
+    }
+    return render_template('gemini/reconocimiento.html', **data)

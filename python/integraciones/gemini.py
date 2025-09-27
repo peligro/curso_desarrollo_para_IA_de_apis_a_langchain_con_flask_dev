@@ -1,6 +1,7 @@
 from flask import  abort
 from http import HTTPStatus
 import requests
+import base64
 from dotenv import load_dotenv
 import os
 # Cargar variables de entorno desde el archivo .env
@@ -201,5 +202,71 @@ def get_analisis_sentimiento_gemini(texto):
 
         return sentimiento
 
+    except requests.exceptions.RequestException as e:
+        abort(HTTPStatus.NOT_FOUND)
+
+
+def get_consulta_imagen_gemini(pregunta, url_imagen):
+    
+    try:
+        response_imagen = requests.get(url_imagen)
+        response_imagen.raise_for_status()
+        
+        imagen_base64 = base64.b64encode(response_imagen.content).decode('utf-8')
+        content_type = response_imagen.headers.get('content-type', 'image/jpeg')
+        
+    except requests.exceptions.RequestException as e:
+        abort(HTTPStatus.BAD_REQUEST, description=f"Error al descargar la imagen: {str(e)}")
+
+    # Prompt optimizado para evitar bloqueos
+    prompt_optimizado = f"""
+    Analiza esta imagen de manera objetiva y descriptiva.
+    
+    Enfócate en:
+    - Elementos visuales observables
+    - personas, cómo están vestidas, qué están haciendo
+    
+    Evita cualquier interpretación médica, emocional o personal.
+    
+    Pregunta específica: {pregunta}
+    """
+
+    payload = {
+        'contents': [
+            {
+                'parts': [
+                    {'text': prompt_optimizado},
+                    {
+                        'inline_data': {
+                            'mime_type': content_type,
+                            'data': imagen_base64
+                        }
+                    }
+                ]
+            }
+        ],
+        'generationConfig': {
+            'temperature': 0.7,
+            'maxOutputTokens': 500,
+        }
+    }
+
+    try:
+        response = requests.post(
+            f"{os.getenv('GEMINI_BASE_URL')}models/gemini-2.0-flash:generateContent?key={os.getenv('GEMINI_API_KEY')}",
+            headers=get_cabeceros(),
+            json=payload
+        )
+        response.raise_for_status()
+
+        data = response.json()
+        
+        # Verificar si hay bloqueos de seguridad en la respuesta
+        if 'promptFeedback' in data and 'blockReason' in data['promptFeedback']:
+            return "La imagen no puede ser analizada debido a restricciones de contenido."
+            
+        respuesta_ia = data['candidates'][0]['content']['parts'][0]['text']
+        return respuesta_ia
+        
     except requests.exceptions.RequestException as e:
         abort(HTTPStatus.NOT_FOUND)
