@@ -6,15 +6,15 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
     <li class="breadcrumb-item"><a href="{{url_for('mistral.mistral_index')}}">Mistral AI</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Prompt básico</li>
+    <li class="breadcrumb-item active" aria-current="page">Análisis de sentimiento</li>
   </ol>
 </nav>
 </div>
 <div class="row">
     <div class="col-12">
         {% include('componentes/flash.html') %}
-        <h1>Prompt básico</h1>
-        <form action="{{ url_for('mistral.mistral_prompt') }}" method="post">
+        <h1>Análisis de sentimiento</h1>
+        <form action="{{ url_for('mistral.mistral_sentimiento') }}" method="post">
             <div class="form-group">
                 <label for="prompt">Prompt</label>
                 <textarea name="prompt" id="prompt" class="form-control" placeholder="Indica tu pregunta">{{ request.form.prompt or '' }}</textarea>

@@ -1,3 +1,5 @@
+from flask import  abort
+from http import HTTPStatus
 import requests
 from dotenv import load_dotenv
 import os
@@ -22,11 +24,130 @@ def get_consulta_simple_mistral(prompt):
         }
     ]
     }
-    response = requests.post(f"{os.getenv('MISTRAL_BASE_URL')}chat/completions", headers=get_cabeceros_mistral(), json=data)
+    response = requests.post(
+        f"{os.getenv('MISTRAL_BASE_URL')}chat/completions", 
+        headers=get_cabeceros_mistral(), 
+        json=data
+        )
     if response.status_code == 200:
         response_json = response.json()
         # Devolver directamente el contenido del mensaje
         return response_json["choices"][0]["message"]["content"]
     else:
-        print(f"Error en la solicitud: {response.status_code}")
-        print(response.text)
+        abort(HTTPStatus.NOT_FOUND)
+
+
+def get_consulta_sql_mistral(texto):
+    schema = """
+        Tabla: users
+        Columnas:
+        - id (int)
+        - name (string)
+        - email (string)
+        - state_id (int)
+        - created_at (datetime)
+        """
+    prompt = f"""
+    Eres un experto en bases de datos PostgreSQL. Tu tarea es convertir este texto en una consulta SQL válida:
+
+    Texto: "{texto}"
+
+    Esquema de la tabla:
+    {schema}
+
+    Reglas de formato:
+    - Nunca uses * en las consultas SQL.
+    - Siempre ordena los datos por el id de forma descendente.
+    - Solo devuelve la consulta SQL, sin explicaciones ni comentarios, ni al inicio ni al final
+    """
+
+    # Datos para la solicitud
+    data = {
+        "model": "mistral-tiny",
+        "messages": [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        "temperature": 0.2  # Temperatura baja para respuestas más deterministas
+    }
+
+    # Realizar la solicitud a Mistral AI
+    response = requests.post(
+        f"{os.getenv('MISTRAL_BASE_URL')}chat/completions",
+        headers=get_cabeceros_mistral(),
+        json=data
+    )
+
+    # Procesar la respuesta
+    if response.status_code == 200:
+        consulta_sql = response.json()["choices"][0]["message"]["content"]
+        # Remover las comillas triples de Markdown
+        consulta_sql = consulta_sql.strip()
+
+        # Remover comillas triples de Markdown si existen
+        if consulta_sql.startswith("```sql"):
+            consulta_sql = consulta_sql[5:].strip()
+        if consulta_sql.endswith("```"):
+            consulta_sql = consulta_sql[:-3].strip()
+
+        # Remover cualquier carácter no deseado al inicio (como la 'l')
+        if consulta_sql and not consulta_sql[0].isalpha() and not consulta_sql[0] == "S":
+            consulta_sql = consulta_sql[1:].strip()
+
+        return consulta_sql
+    else:
+        abort(HTTPStatus.NOT_FOUND)
+
+
+def get_traduccion_mistral(texto, idioma_destino):
+    prompt = f"""
+    Traduce el siguiente texto al {idioma_destino}:
+    {texto}
+    Reglas:
+    - Mantén el tono y estilo del texto original.
+    - Solo devuelve la traducción, sin explicaciones adicionales, ni al inicio ni al final.
+    - no muestras ninguna nota ni al final ni al inicio, sólo devuelve la traducción, de ningún tipo.
+    - no muestres tampoco indicaciones referentes al tipo de caracteres usados, ni tampoco ninguna advertencia
+    """
+    data = {
+        "model": "mistral-small",
+        "messages": [
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.3
+    }
+    response = requests.post(
+        f"{os.getenv('MISTRAL_BASE_URL')}chat/completions",
+        headers=get_cabeceros_mistral(),
+        json=data
+    )
+    if response.status_code == 200:
+        return response.json()["choices"][0]["message"]["content"]
+    else:
+        abort(HTTPStatus.NOT_FOUND)
+
+
+def get_analisis_sentimiento_mistral(texto):
+    prompt = f"""
+    Analiza el sentimiento del siguiente texto:
+    {texto}
+    Devuelve solo: positivo, negativo o neutral.
+    """
+    data = {
+        "model": "mistral-small",
+        "messages": [
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.2
+    }
+    response = requests.post(
+        f"{os.getenv('MISTRAL_BASE_URL')}chat/completions",
+        headers=get_cabeceros_mistral(),
+        json=data
+    )
+    if response.status_code == 200:
+        return response.json()["choices"][0]["message"]["content"]
+    else:
+        abort(HTTPStatus.NOT_FOUND)
