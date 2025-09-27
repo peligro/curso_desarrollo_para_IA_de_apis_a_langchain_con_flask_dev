@@ -1,0 +1,40 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Diseño {%endblock%}
+<!---->
+{% block content %}
+<h1>Arreglos</h1>
+{% if paises %}
+    <p>Hay {{ paises|length }} paises</p>
+    <h2>Países:</h2>
+    <ul>
+        {% for pais in paises %}
+            <li> ({{ loop.index }}) ({{ loop.index0 }}) -  {{ pais }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>No hay países.</p>
+    {% endif %}
+
+
+<h2>Personas:</h2>
+<p>Hay {{ personas|length }} personas</p>
+<table  class="table table-bordered table-striped table-hover" >
+    <thead>
+        <tr>
+            <th>Index</th>
+            <th>Nombre</th>
+            <th>Edad</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for persona in personas %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{ persona.nombre }}</td>
+                <td>{{ persona.edad }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+ 
+
+{% endblock %}

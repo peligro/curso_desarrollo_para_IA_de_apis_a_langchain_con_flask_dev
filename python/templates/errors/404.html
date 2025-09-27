@@ -1,0 +1,9 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Diseño {%endblock%}
+<!---->
+{% block content %}
+<h1>Ups,página no encontrada</h1>
+     
+    <p>
+        <img src="{{url_for('static', filename='img/404.png')}}"  />
+    </p>
+{% endblock %}

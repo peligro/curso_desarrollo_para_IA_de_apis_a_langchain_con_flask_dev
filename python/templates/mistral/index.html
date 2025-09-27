@@ -1,0 +1,11 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Diseño {%endblock%}
+<!---->
+{% block content %}
+<h1>Mistral AI</h1>
+<p>https://docs.mistral.ai/api/#tag/chat</p>
+<ul>
+    <li>
+        <a href="{{url_for('mistral.mistral_prompt')}}">Prompt básico</a>
+    </li>
+</ul>
+{% endblock %}

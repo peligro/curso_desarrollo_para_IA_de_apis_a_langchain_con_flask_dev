@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Desarrollo para IA: De APIs a LangChain con Flask - {%block title %} {%endblock%}</title>
+    <link href="{{url_for('static', filename='img/favicon.ico')}}" rel="icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css', _external=True) }}" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!--navbar-->
+        <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{url_for('main.main_index', _external=True)}}">Desarrollo para IA: De APIs a
+                    LangChain con Flask</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href={{url_for('diseno.diseno_index', _external=True)}}>Home</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSeguridad" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Primeros pasos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownSeguridad">
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('parametros.parametros_index', id=1, slug='hola-mundo', _external=True)}}">Parámetros</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('parametros.parametros_querystring', id=1, slug='hola-mundo', _external=False)}}">Querystring</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('diseno.diseno_index', _external=False)}}">Diseño</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('diseno.diseno_condiciones', _external=False)}}">Diseño condiciones</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('diseno.diseno_ciclos', _external=False)}}">Diseño ciclos</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('diseno.diseno_arreglo', _external=False)}}">Diseño arreglos</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('health.health_check', _external=False)}}">Health Check</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('formularios.formularios_simple', _external=True)}}">Formulario simple</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSeguridad" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-sitemap"></i> Integración IAs via API
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownSeguridad">
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('mistral.mistral_index', _external=True)}}">Mistral AI</a>
+                                </li>
+                                 
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--/navbar-->
+    </div>
+    <div class="container">
+        <!--contenido-->
+        {% block content %} {% endblock %}
+        <!--/contenido-->
+    </div>
+
+
+
+    <script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+</body>
+
+</html>

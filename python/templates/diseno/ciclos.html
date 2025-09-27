@@ -1,0 +1,21 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Diseño {%endblock%}
+<!---->
+{% block content %}
+<h1>Ciclos</h1>
+<ul>
+
+    {% for i in range(1, 11) %}
+    <li> {{ i }} </li>
+    {% endfor %}
+
+</ul>
+
+<ul>
+
+    {% for i in range(10, 0, -1) %}
+    <li> {{ i }} </li>
+    {% endfor %}
+
+</ul>
+
+{% endblock %}

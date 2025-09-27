@@ -1,0 +1,9 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Diseño {%endblock%}
+<!---->
+{% block content %}
+<h1>Ups, ha ocurrido un error inesperado</h1>
+<h4>{{error}}</h4>
+<p>
+    <img src="{{url_for('static', filename='img/500.jpg')}}" width="200" />
+</p>
+{% endblock %}

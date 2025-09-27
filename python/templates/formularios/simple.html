@@ -1,0 +1,29 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Formularios {%endblock%}
+<!---->
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+<h1>Formulario simple</h1>
+ <form action="{{ url_for('formularios.formularios_simple_post') }}" method="post">
+    <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" placeholder="Nombre" class="form-control" value="{{ request.form.nombre or '' }}" />
+    </div>
+    <div class="form-group">
+        <label for="correo">Correo</label>
+        <input type="text" name="correo" id="correo" placeholder="Correo" class="form-control" value="{{ request.form.correo or '' }}" />
+    </div>
+    <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="text" name="telefono" id="telefono" placeholder="Teléfono" class="form-control" value="{{ request.form.telefono or '' }}" />
+    </div>
+    <hr />
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+    <input type="submit" value="Enviar" title="Enviar" class="btn btn-primary" />
+</form>
+    </div>
+</div>
+
+{% endblock %}

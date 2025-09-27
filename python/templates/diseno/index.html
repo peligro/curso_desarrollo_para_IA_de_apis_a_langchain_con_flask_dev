@@ -1,0 +1,11 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Diseño {%endblock%}
+<!---->
+{% block content %}
+<h1>Título</h1>
+    <p>{{mensaje}}</p>
+    <p>{{title}}</p>
+    <p>{{html|safe}}</p>
+    <p>
+        <img src="{{url_for('static', filename='img/logo.png')}}" alt="logo.png" />
+    </p>
+{% endblock %}

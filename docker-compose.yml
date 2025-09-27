@@ -1,0 +1,63 @@
+services:
+  
+  
+  postgres:
+    image: postgres:15
+    container_name: laravel-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - custom_network
+
+  phppgadmin:
+    image: dpage/pgadmin4
+    container_name: laravel-phppgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - custom_network
+
+  python:
+    build:
+      context: ./docker/python
+    container_name: python_service
+    volumes:
+      - ./python:/usr/src/app
+    working_dir: /usr/src/app
+    command: tail -f /dev/null  # Mantener el contenedor en ejecución
+    ports:
+      - "8080:8050"
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - custom_network
+    depends_on:
+      - postgres
+  
+
+  
+
+volumes:
+  pgdata:
+
+networks:
+  custom_network:
+    name: red_fastapi
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.42.12.0/28
+          gateway: 172.42.12.1
