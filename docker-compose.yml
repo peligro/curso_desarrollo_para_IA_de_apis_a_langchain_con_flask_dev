@@ -1,35 +1,4 @@
 services:
-  
-  
-  postgres:
-    image: postgres:15
-    container_name: laravel-postgres
-    restart: always
-    environment:
-      POSTGRES_DB: laravel
-      POSTGRES_USER: laravel
-      POSTGRES_PASSWORD: secret
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - custom_network
-
-  phppgadmin:
-    image: dpage/pgadmin4
-    container_name: laravel-phppgadmin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "5050:80"
-    depends_on:
-      - postgres
-    networks:
-      - custom_network
-
   python:
     build:
       context: ./docker/python
@@ -44,9 +13,37 @@ services:
       - PYTHONUNBUFFERED=1
     networks:
       - custom_network
-    depends_on:
-      - postgres
   
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    restart: always
+    environment:
+      - SERVICES=sqs,lambda,ses,s3,dynamodb
+      - DEFAULT_REGION=us-west-2
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack-data
+      - TMPDIR=/tmp/localstack-custom
+      - CLEAN_TMP_DIR=false
+      - AWS_ACCESS_KEY_ID=fake
+      - AWS_SECRET_ACCESS_KEY=fake
+      - SES_DISABLE_EMAIL_VERIFICATION=1
+      - DISABLE_WEB_UI=false
+      - WEB_UI_ENABLED=true
+      - LOCALSTACK_HOSTNAME=localhost
+      - EDGE_PORT=4566
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - LAMBDA_EXECUTOR=docker
+      - HOST_TMP_FOLDER=${TMPDIR:-/tmp/}localstack
+    ports:
+      - "4566:4566"
+      - "8085:8080"
+    volumes:
+      - "${LOCALSTACK_DATA_DIR:-./localstack-data}:/tmp/localstack-data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - custom_network
 
   
 

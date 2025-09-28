@@ -19,6 +19,7 @@
                 <label for="idioma">Idioma</label>
                 <select name="idioma" id="idioma" class="form-control">
                     <option value="Inglés" {% if request.form.idioma == 'Inglés' %}selected{% endif %}>Inglés</option>
+                    <option value="Italiano" {% if request.form.idioma == 'Italiano' %}selected{% endif %}>Italiano</option>
                     <option value="Francés" {% if request.form.idioma == 'Francés' %}selected{% endif %}>Francés</option>
                     <option value="Español" {% if request.form.idioma == 'Español' %}selected{% endif %}>Español</option>
                     <option value="Portugués (Brasil)" {% if request.form.idioma == 'Portugués (Brasil)' %}selected{% endif %}>Portugués (Brasil)</option>

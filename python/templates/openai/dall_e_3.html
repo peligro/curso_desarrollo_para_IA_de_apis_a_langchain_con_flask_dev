@@ -1,0 +1,56 @@
+{% extends 'layouts/frontend.html' %} {% block title%} OpenAI {%endblock%}
+<!---->
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+    <li class="breadcrumb-item"><a href="{{url_for('openai.openai_index')}}">OpenAI</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Generación imagen con Dall-E-3</li>
+  </ol>
+</nav>
+</div>
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+        <h1>Generación imagen con Dall-E-3</h1>
+        <form action="{{ url_for('openai.openai_dall_e_3') }}" method="post">
+            <div class="form-group">
+                <label for="prompt">Prompt</label>
+                <textarea name="prompt" id="prompt" class="form-control" placeholder="Indica tu pregunta">{{ request.form.prompt or '' }}</textarea>
+            </div>
+
+            <hr />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <input type="submit" value="Enviar" title="Enviar" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+<!-- Solo mostrar la respuesta y el tiempo si viene de una petición POST y hay datos -->
+{% if   respuesta %}
+<div class="row mt-4">
+    <div class="card">
+        <div className="card-header">
+            <h3 className="card-title">Respuesta de OpenAI AI:</h3>
+            <h5>Se tomó {{tiempo_transcurrido}} segundos</h5>
+        </div>
+        <div class="card-body">
+            <p>URL: {{respuesta}}</p>
+            <img src="{{url_for('bucket_s3.bucket_s3_ver', bucket=bucket, imagen=respuesta)}}" alt="">
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row mt-4">
+    <div class="card">
+         
+        <div class="card-body">
+            <div class="alert alert-warning">
+                No se recibió respuesta de la IA
+            </div>
+        </div>
+    </div>
+</div>
+ {%endif%}
+{% endblock %}

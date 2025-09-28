@@ -1,11 +1,11 @@
-{% extends 'layouts/frontend.html' %} {% block title%} Diseño {%endblock%}
+{% extends 'layouts/frontend.html' %} {% block title%} OpenAI {%endblock%}
 <!---->
 {% block content %}
 <div class="row">
     <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-    <li class="breadcrumb-item"><a href="{{url_for('mistral.mistral_index')}}">Mistral AI</a></li>
+    <li class="breadcrumb-item"><a href="{{url_for('openai.openai_index')}}">OpenAI</a></li>
     <li class="breadcrumb-item active" aria-current="page">Traductor de textos</li>
   </ol>
 </nav>
@@ -14,7 +14,7 @@
     <div class="col-12">
         {% include('componentes/flash.html') %}
         <h1>Traductor de textos</h1>
-        <form action="{{ url_for('mistral.mistral_traductor') }}" method="post">
+        <form action="{{ url_for('openai.openai_traductor') }}" method="post">
             <div class="form-group">
                 <label for="idioma">Idioma</label>
                 <select name="idioma" id="idioma" class="form-control">
@@ -48,7 +48,7 @@
 <div class="row mt-4">
     <div class="card">
         <div className="card-header">
-            <h3 className="card-title">Respuesta de Mistral AI:</h3>
+            <h3 className="card-title">Respuesta de OpenAI AI:</h3>
             <h5>Se tomó {{tiempo_transcurrido}} segundos</h5>
         </div>
         <div class="card-body">

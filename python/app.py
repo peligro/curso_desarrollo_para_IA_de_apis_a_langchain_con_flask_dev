@@ -22,6 +22,9 @@ def create_app():
     from routes.formularios.main import formularios_bp
     from routes.mistral.main import mistral_bp
     from routes.gemini.main import gemini_bp
+    from routes.openai.main import openai_bp
+    from routes.deepseek.main import deepseek_bp
+    from routes.bucket_s3.main import bucket_s3_bp
 
     
     app.register_blueprint(main_bp)
@@ -33,6 +36,9 @@ def create_app():
     app.register_blueprint(formularios_bp)
     app.register_blueprint(mistral_bp)
     app.register_blueprint(gemini_bp)
+    app.register_blueprint(openai_bp)
+    app.register_blueprint(deepseek_bp)
+    app.register_blueprint(bucket_s3_bp)
 
 
     # Manejador personalizado para error 404

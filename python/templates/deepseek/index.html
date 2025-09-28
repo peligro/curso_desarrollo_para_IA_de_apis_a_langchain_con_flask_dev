@@ -1,0 +1,20 @@
+{% extends 'layouts/frontend.html' %} {% block title%} DeepSeek {%endblock%}
+<!---->
+{% block content %}
+<h1>DeepSeek AI</h1>
+<p>https://api-docs.deepseek.com/</p>
+<ul>
+    <li>
+        <a href="{{url_for('deepseek.deepseek_prompt')}}">Prompt básico</a>
+    </li>
+    <li>
+        <a href="{{url_for('deepseek.deepseek_consulta')}}">Consulta SQL desde la IA</a>
+    </li>
+    <li>
+        <a href="{{url_for('deepseek.deepseek_traductor')}}">Traductor de textos</a>
+    </li>
+    <li>
+        <a href="{{url_for('deepseek.deepseek_sentimiento')}}">Análisis de sentimiento</a>
+    </li>
+</ul>
+{% endblock %}

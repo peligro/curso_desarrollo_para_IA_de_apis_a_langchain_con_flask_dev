@@ -66,6 +66,7 @@ def get_consulta_sql_gemini(texto):
     - Nunca uses * en las consultas SQL.
     - Siempre ordena los datos por el id de forma descendente.
     - Solo devuelve la consulta SQL, sin explicaciones ni comentarios, ni al inicio ni al final.
+    - no envuelvas la consulta en ```sql ```
     """
 
     
@@ -94,14 +95,7 @@ def get_consulta_sql_gemini(texto):
         data = response.json()
         consulta_sql = data['candidates'][0]['content']['parts'][0]['text']
 
-        # Procesar la respuesta para limpiar el formato
-        consulta_sql = consulta_sql.strip()
-        if consulta_sql.startswith("```sql"):
-            consulta_sql = consulta_sql[5:].strip()
-        if consulta_sql.endswith("```"):
-            consulta_sql = consulta_sql[:-3].strip()
-        if consulta_sql and not consulta_sql[0].isalpha() and not consulta_sql[0] == "S":
-            consulta_sql = consulta_sql[1:].strip()
+         
 
         return consulta_sql
 
