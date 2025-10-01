@@ -25,6 +25,7 @@ def create_app():
     from routes.openai.main import openai_bp
     from routes.deepseek.main import deepseek_bp
     from routes.bucket_s3.main import bucket_s3_bp
+    from routes.ollama.main import ollama_bp
 
     
     app.register_blueprint(main_bp)
@@ -39,6 +40,7 @@ def create_app():
     app.register_blueprint(openai_bp)
     app.register_blueprint(deepseek_bp)
     app.register_blueprint(bucket_s3_bp)
+    app.register_blueprint(ollama_bp)
 
 
     # Manejador personalizado para error 404
