@@ -144,5 +144,3 @@ def get_analisis_sentimiento_deepseek(texto):
         return response.json()["choices"][0]["message"]["content"]
     else:
         abort(HTTPStatus.NOT_FOUND)
-
-

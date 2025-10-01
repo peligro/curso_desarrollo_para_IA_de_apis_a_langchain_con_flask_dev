@@ -1,0 +1,84 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Gemini {%endblock%}
+<!---->
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('gemini.gemini_index')}}">Gemini</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Transcribir audio</li>
+        </ol>
+    </nav>
+</div>
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+        <h1>Transcribir audio</h1>
+        
+        <!-- Botón para reproducir audio -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title">Reproducir Audio</h5>
+            </div>
+            <div class="card-body">
+                <audio controls class="w-100">
+                    <source src="{{ url_for('static', filename='audio/audio.mp3') }}" type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+                <p class="mt-2 text-muted">Archivo: audio.mp3</p>
+            </div>
+        </div>
+
+        <!-- Formulario para transcribir -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Transcribir Audio</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('gemini.gemini_audio') }}">
+                    <input type="hidden" name="audio_path" value="static/audio/audio.mp3">
+                    <div class="mb-3">
+                        <label class="form-label">Archivo a transcribir:</label>
+                        <input type="text" class="form-control" value="static/audio/audio.mp3" readonly>
+                        <div class="form-text">Este es el archivo que se transcribirá usando Whisper API</div>
+                    </div>
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-volume-up"></i> Transcribir Audio
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Solo mostrar la respuesta y el tiempo si viene de una petición POST y hay datos -->
+{% if respuesta %}
+<div class="row mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Transcripción de OpenAI Whisper:</h3>
+            <h5>Se tomó {{tiempo_transcurrido}} segundos</h5>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-success">
+                <h6>Texto transcrito:</h6>
+                <pre class="mb-0" style="white-space: pre-wrap; background: #f8f9fa; padding: 15px; border-radius: 5px;">
+{{respuesta}}
+                </pre>
+            </div>
+        </div>
+    </div>
+</div>
+{% elif respuesta == "" %}
+<div class="row mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-warning">
+                No se pudo transcribir el audio o el audio está vacío
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

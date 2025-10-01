@@ -303,5 +303,51 @@ def generar_imagen_dall_e_3(prompt):
     except requests.exceptions.RequestException as e:
         abort(HTTPStatus.NOT_FOUND)
     except Exception as e:
-        return f"error={e}"
+        #return f"error={e}"
         abort(HTTPStatus.NOT_FOUND)
+
+
+def transcribir_audio_openai(audio_file_path):
+    """
+    Transcribe un archivo de audio local a texto usando la API de Whisper de OpenAI.
+    
+    Args:
+        audio_file_path (str): Ruta local al archivo de audio (mp3, wav, etc.)
+        
+    Returns:
+        str: Texto transcrito del audio
+    """
+    try:
+        # Verificar que el archivo existe
+        if not os.path.exists(audio_file_path):
+            abort(HTTPStatus.BAD_REQUEST, description="El archivo de audio no existe")
+        
+        # Verificar tamaño del archivo (límite de Whisper: 25MB)
+        file_size = os.path.getsize(audio_file_path) / (1024 * 1024)  # MB
+        if file_size > 25:
+            abort(HTTPStatus.BAD_REQUEST, description="El archivo es demasiado grande (máximo 25MB)")
+        
+        # Preparar la solicitud para la API de Whisper
+        with open(audio_file_path, 'rb') as audio_file:
+            files = {
+                'file': (os.path.basename(audio_file_path), audio_file, 'audio/mpeg'),
+                'model': (None, 'whisper-1'),
+                'response_format': (None, 'text'),
+                'language': (None, 'es')  # Opcional: especificar español
+            }
+            
+            response = requests.post(
+                f"{os.getenv('OPENAI_API_URL')}audio/transcriptions",
+                headers={
+                    "Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}"
+                },
+                files=files
+            )
+        
+        if response.status_code == 200:
+            return response.text
+        else:
+            abort(HTTPStatus.BAD_REQUEST, description=f"Error en la transcripción: {response.text}")
+            
+    except Exception as e:
+        abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=f"Error interno: {str(e)}")

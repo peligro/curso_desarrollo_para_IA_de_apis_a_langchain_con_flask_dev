@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash
 from http import HTTPStatus
-from integraciones.openai import get_consulta_simple_openai, get_consulta_sql_openai, get_traduccion_openai, get_analisis_sentimiento_openai, get_consulta_imagen_openai, generar_imagen_dall_e_3
+from integraciones.openai import get_consulta_simple_openai, get_consulta_sql_openai, get_traduccion_openai, get_analisis_sentimiento_openai, get_consulta_imagen_openai, generar_imagen_dall_e_3, transcribir_audio_openai
 import time
 
 from dotenv import load_dotenv
@@ -199,3 +199,37 @@ def openai_dall_e_3():
         'bucket':os.getenv('AWS_BUCKET')
     }
     return render_template('openai/dall_e_3.html', **data)
+
+
+@openai_bp.route('/openai/audio', methods=['GET', 'POST'])
+def openai_audio():
+    if request.method == 'POST':
+        audio_path = request.form.get('audio_path', '').strip()
+        
+        if not audio_path:
+            flash("No se especificó la ruta del audio.", "danger")
+            return render_template('openai/audio.html'), HTTPStatus.BAD_REQUEST
+        
+        # Inicio del timer
+        start_time = time.time()
+
+        try:
+            # Llamada a la API de OpenAI para transcribir
+            respuesta = transcribir_audio_openai(audio_path)
+            
+            # Fin del timer
+            end_time = time.time()
+            
+            # Calcular el tiempo transcurrido en segundos
+            tiempo_transcurrido = round(end_time - start_time, 2)
+            
+            data = {
+                'tiempo_transcurrido': tiempo_transcurrido,
+                'respuesta': respuesta
+            }
+            return render_template('openai/audio.html', **data)
+            
+        except Exception as e:
+            flash(f"Error al transcribir el audio: {str(e)}", "danger")
+            return render_template('openai/audio.html'), HTTPStatus.INTERNAL_SERVER_ERROR
+    return render_template('openai/audio.html')

@@ -264,3 +264,90 @@ def get_consulta_imagen_gemini(pregunta, url_imagen):
         
     except requests.exceptions.RequestException as e:
         abort(HTTPStatus.NOT_FOUND)
+
+
+def transcribir_audio_gemini(audio_file_path):
+    """
+    Transcribe un archivo de audio a texto usando Google Gemini.
+    
+    Args:
+        audio_file_path (str): Ruta local al archivo de audio (mp3, wav, etc.)
+        
+    Returns:
+        str: Texto transcrito del audio
+    """
+    try:
+        # Verificar que el archivo existe
+        if not os.path.exists(audio_file_path):
+            abort(HTTPStatus.BAD_REQUEST, description="El archivo de audio no existe")
+        
+        # Verificar tamaño del archivo (Gemini tiene límites)
+        file_size = os.path.getsize(audio_file_path) / (1024 * 1024)  # MB
+        if file_size > 20:
+            abort(HTTPStatus.BAD_REQUEST, description="El archivo es demasiado grande (máximo 20MB)")
+        
+        # Determinar el formato del archivo
+        file_extension = audio_file_path.lower().split('.')[-1]
+        mime_types = {
+            'mp3': 'audio/mpeg',
+            'wav': 'audio/wav',
+            'm4a': 'audio/mp4',
+            'ogg': 'audio/ogg',
+            'flac': 'audio/flac'
+        }
+        mime_type = mime_types.get(file_extension, 'audio/mpeg')
+        
+        # Leer el archivo de audio y convertirlo a base64
+        with open(audio_file_path, 'rb') as audio_file:
+            audio_data = audio_file.read()
+            audio_base64 = base64.b64encode(audio_data).decode('utf-8')
+        
+        # Preparar el payload para Gemini
+        payload = {
+            'contents': [
+                {
+                    'parts': [
+                        {
+                            'text': "Transcribe este audio a texto exactamente como se escucha. Devuelve solo la transcripción sin comentarios adicionales, títulos o explicaciones."
+                        },
+                        {
+                            'inline_data': {
+                                'mime_type': mime_type,
+                                'data': audio_base64
+                            }
+                        }
+                    ]
+                }
+            ],
+            'generationConfig': {
+                'temperature': 0.1,  # Temperatura baja para mayor precisión
+                'maxOutputTokens': 2000,  # Suficiente para transcripciones largas
+            }
+        }
+        
+        # Realizar la solicitud a Gemini
+        response = requests.post(
+            f"{os.getenv('GEMINI_BASE_URL')}models/gemini-2.0-flash:generateContent?key={os.getenv('GEMINI_API_KEY')}",
+            headers=get_cabeceros(),
+            json=payload
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Verificar si hay bloqueos de seguridad
+            if 'promptFeedback' in data and 'blockReason' in data['promptFeedback']:
+                abort(HTTPStatus.BAD_REQUEST, description="El audio no puede ser procesado debido a restricciones de contenido")
+            
+            # Extraer la transcripción
+            if 'candidates' in data and len(data['candidates']) > 0:
+                transcription = data['candidates'][0]['content']['parts'][0]['text']
+                return transcription.strip()
+            else:
+                abort(HTTPStatus.BAD_REQUEST, description="Gemini no devolvió una transcripción válida")
+        else:
+            error_msg = f"Error en la transcripción: {response.status_code} - {response.text}"
+            abort(HTTPStatus.BAD_REQUEST, description=error_msg)
+            
+    except Exception as e:
+        abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=f"Error interno: {str(e)}")
