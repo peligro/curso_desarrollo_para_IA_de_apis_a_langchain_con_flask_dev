@@ -1,0 +1,21 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Claude Anthropic {%endblock%}
+<!---->
+{% block content %}
+<h1>Claude Anthropic</h1>
+<p>https://docs.claude.com/en/docs/get-started</p>
+<ul>
+    <li>
+        <a href="{{url_for('claude.claude_prompt')}}">Prompt básico</a>
+    </li>
+    <li>
+        <a href="{{url_for('claude.claude_consulta')}}">Consulta SQL desde la IA</a>
+    </li>
+    <li>
+        <a href="{{url_for('claude.claude_traductor')}}">Traductor de textos</a>
+    </li>
+    <li>
+        <a href="{{url_for('claude.claude_sentimiento')}}">Análisis de sentimiento</a>
+    </li>
+    
+</ul>
+{% endblock %}
