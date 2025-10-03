@@ -351,3 +351,36 @@ def transcribir_audio_openai(audio_file_path):
             
     except Exception as e:
         abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=f"Error interno: {str(e)}")
+
+
+def get_chat_con_historial_openai(mensajes_historial):
+    """
+    Realiza una consulta a OpenAI con historial de conversación completo
+    mensajes_historial: Lista de mensajes con formato [{"role": "user/assistant", "content": "mensaje"}, ...]
+    """
+    
+    data = {
+        "model": "gpt-4o-mini",
+        "messages": mensajes_historial,
+        "temperature": 0.7,
+        "max_tokens": 2000
+    }
+    
+    try:
+        response = requests.post(
+            f"{os.getenv('OPENAI_API_URL')}chat/completions",
+            headers=get_cabeceros_openai(),
+            json=data,
+            timeout=60
+        )
+        
+        if response.status_code == 200:
+            response_json = response.json()
+            return response_json["choices"][0]["message"]["content"]
+        else:
+            print(f"Error en OpenAI API: {response.status_code} - {response.text}")
+            abort(HTTPStatus.NOT_FOUND)
+            
+    except Exception as e:
+        print(f"Error en conexión con OpenAI: {e}")
+        abort(HTTPStatus.NOT_FOUND)

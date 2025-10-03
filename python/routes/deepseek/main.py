@@ -134,8 +134,6 @@ def deepseek_sentimiento():
     return render_template('deepseek/sentimiento.html', **data)
 
 
-
-
 @deepseek_bp.route('/deepseek/chat-con-historial', methods=['GET', 'POST'])
 def deepseek_chat_con_historial():
     # Inicializar historial al cargar la página
