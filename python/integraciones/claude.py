@@ -222,3 +222,50 @@ def get_consulta_imagen_claude(pregunta, url_imagen):
         return response.json()["content"][0]["text"]
     else:
         abort(HTTPStatus.NOT_FOUND)
+
+
+def get_chat_con_historial_claude(mensajes_historial):
+    """
+    Realiza una consulta a Claude AI con historial de conversación completo
+    mensajes_historial: Lista de mensajes con formato [{"role": "user/assistant", "content": "mensaje"}, ...]
+    """
+    
+    # Convertir el formato de historial al que espera Claude
+    messages = []
+    
+    for mensaje in mensajes_historial:
+        # Claude usa 'user' para humano y 'assistant' para la IA
+        role = mensaje['role']  # Ya está en el formato correcto
+        content = mensaje['content']
+        
+        # Claude espera el contenido como texto simple
+        messages.append({
+            "role": role,
+            "content": content
+        })
+    
+    data = {
+        "model": "claude-3-haiku-20240307",
+        "max_tokens": 1000,
+        "temperature": 0.3,
+        "messages": messages
+    }
+    
+    try:
+        response = requests.post(
+            f"{os.getenv('CLAUDE_BASE_URL')}messages",
+            headers=get_cabeceros(),
+            json=data,
+            timeout=60
+        )
+        
+        if response.status_code == 200:
+            response_json = response.json()
+            return response_json["content"][0]["text"]
+        else:
+            print(f"Error en Claude API: {response.status_code} - {response.text}")
+            abort(HTTPStatus.NOT_FOUND)
+            
+    except Exception as e:
+        print(f"Error en conexión con Claude: {e}")
+        abort(HTTPStatus.NOT_FOUND)

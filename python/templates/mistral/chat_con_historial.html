@@ -53,7 +53,7 @@
             </div>
             <div class="card-body">
                 <div class="chat-history" style="max-height: 400px; overflow-y: auto;">
-                    {% for mensaje in historial %}
+                    {% for mensaje in historial|reverse %}
                     <div class="message mb-3 {% if mensaje.rol == 'usuario' %}text-end{% else %}text-start{% endif %}">
                         <div class="alert {% if mensaje.rol == 'usuario' %}alert-primary{% else %}alert-success{% endif %} d-inline-block">
                             <strong>{% if mensaje.rol == 'usuario' %}Tú{% else %}IA{% endif %}:</strong>

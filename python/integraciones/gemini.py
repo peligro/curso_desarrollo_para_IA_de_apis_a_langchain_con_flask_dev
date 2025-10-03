@@ -443,3 +443,61 @@ def analizar_video_gemini(video_file_path, pregunta_personalizada=None):
             
     except Exception as e:
         abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=f"Error interno: {str(e)}")
+
+
+def get_chat_con_historial_gemini(mensajes_historial):
+    """
+    Realiza una consulta a Google Gemini con historial de conversación completo
+    mensajes_historial: Lista de mensajes con formato [{"role": "user/assistant", "content": "mensaje"}, ...]
+    """
+    
+    # Convertir el formato de historial al que espera Gemini
+    contents = []
+    
+    for mensaje in mensajes_historial:
+        # Gemini usa 'user' para humano y 'model' para la IA
+        role = "user" if mensaje['role'] == 'user' else "model"
+        contents.append({
+            'parts': [{'text': mensaje['content']}],
+            'role': role
+        })
+    
+    payload = {
+        'contents': contents,
+        'generationConfig': {
+            'temperature': 0.7,
+            'maxOutputTokens': 1000,
+            'topP': 0.8,
+            'topK': 40
+        }
+    }
+    
+    try:
+        response = requests.post(
+            f"{os.getenv('GEMINI_BASE_URL')}models/gemini-2.0-flash:generateContent?key={os.getenv('GEMINI_API_KEY')}",
+            headers=get_cabeceros(),
+            json=payload,
+            timeout=60
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Verificar si hay bloqueos de seguridad
+            if 'promptFeedback' in data and 'blockReason' in data['promptFeedback']:
+                return "La conversación no puede continuar debido a restricciones de contenido."
+            
+            # Extraer la respuesta
+            if 'candidates' in data and len(data['candidates']) > 0:
+                respuesta = data['candidates'][0]['content']['parts'][0]['text']
+                return respuesta
+            else:
+                print("Error: Gemini no devolvió una respuesta válida")
+                abort(HTTPStatus.NOT_FOUND)
+        else:
+            print(f"Error en Gemini API: {response.status_code} - {response.text}")
+            abort(HTTPStatus.NOT_FOUND)
+            
+    except Exception as e:
+        print(f"Error en conexión con Gemini: {e}")
+        abort(HTTPStatus.NOT_FOUND)

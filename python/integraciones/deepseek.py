@@ -144,3 +144,37 @@ def get_analisis_sentimiento_deepseek(texto):
         return response.json()["choices"][0]["message"]["content"]
     else:
         abort(HTTPStatus.NOT_FOUND)
+
+
+def get_chat_con_historial_deepseek(mensajes_historial):
+    """
+    Realiza una consulta a DeepSeek AI con historial de conversación completo
+    mensajes_historial: Lista de mensajes con formato [{"role": "user/assistant", "content": "mensaje"}, ...]
+    """
+    
+    data = {
+        "model": "deepseek-chat",
+        "messages": mensajes_historial,
+        "temperature": 0.7,
+        "max_tokens": 2000,
+        "stream": False
+    }
+    
+    try:
+        response = requests.post(
+            f"{os.getenv('DEEPSEEK_API_URL')}chat/completions",
+            headers=get_cabeceros_deepseek(),
+            json=data,
+            timeout=60
+        )
+        
+        if response.status_code == 200:
+            response_json = response.json()
+            return response_json["choices"][0]["message"]["content"]
+        else:
+            print(f"Error en DeepSeek API: {response.status_code} - {response.text}")
+            abort(HTTPStatus.NOT_FOUND)
+            
+    except Exception as e:
+        print(f"Error en conexión con DeepSeek: {e}")
+        abort(HTTPStatus.NOT_FOUND)

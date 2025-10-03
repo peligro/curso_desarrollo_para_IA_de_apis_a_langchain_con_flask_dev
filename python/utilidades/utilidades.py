@@ -94,4 +94,44 @@ def obtener_historial_formateado():
         })
     
     return mensajes_formateados
+
+
+def obtener_historial_formateado_gemini():
+    """
+    Convierte el historial de la sesión al formato que espera la API de Gemini
+    Returns: Lista de mensajes en formato [{"role": "user/model", "content": "mensaje"}]
+    """
+    inicializar_historial()
+    
+    mensajes_formateados = []
+    for mensaje in session['historial_chat']:
+        # Convertir nuestro formato interno al formato de Gemini
+        # Gemini usa 'user' para humano y 'model' para la IA
+        role = "user" if mensaje['rol'] == 'usuario' else "model"
+        mensajes_formateados.append({
+            "role": role,
+            "content": mensaje['mensaje']
+        })
+    
+    return mensajes_formateados
+
+
+def obtener_historial_formateado_claude():
+    """
+    Convierte el historial de la sesión al formato que espera la API de Claude
+    Returns: Lista de mensajes en formato [{"role": "user/assistant", "content": "mensaje"}]
+    """
+    inicializar_historial()
+    
+    mensajes_formateados = []
+    for mensaje in session['historial_chat']:
+        # Convertir nuestro formato interno al formato de Claude
+        # Claude usa 'user' para humano y 'assistant' para la IA
+        role = "user" if mensaje['rol'] == 'usuario' else "assistant"
+        mensajes_formateados.append({
+            "role": role,
+            "content": mensaje['mensaje']
+        })
+    
+    return mensajes_formateados
 ############FIN SESIONES
