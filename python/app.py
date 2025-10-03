@@ -29,6 +29,7 @@ def create_app():
     from routes.bucket_s3.main import bucket_s3_bp
     from routes.ollama.main import ollama_bp
     from routes.claude.main import claude_bp
+    from routes.perplexity.main import perplexity_bp
 
     
     app.register_blueprint(main_bp)
@@ -45,6 +46,8 @@ def create_app():
     app.register_blueprint(bucket_s3_bp)
     app.register_blueprint(ollama_bp)
     app.register_blueprint(claude_bp)
+    app.register_blueprint(perplexity_bp)
+    
 
 
     # Manejador personalizado para error 404
@@ -80,7 +83,7 @@ def create_app():
             return value.strftime(format)
         return value
     
-    
+
     return app
 
     

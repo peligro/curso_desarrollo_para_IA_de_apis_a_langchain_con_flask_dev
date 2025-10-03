@@ -1,0 +1,12 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Perplexity {%endblock%}
+<!---->
+{% block content %}
+<h1>Perplexity AI</h1>
+<p>https://docs.perplexity.ai/getting-started/overview</p>
+<ul>
+    <li>
+        <a href="{{url_for('perplexity.perplexity_busqueda')}}">Búsqueda básica</a>
+    </li>
+    
+</ul>
+{% endblock %}

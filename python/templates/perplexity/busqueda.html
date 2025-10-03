@@ -1,0 +1,89 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Perplexity {%endblock%}
+<!---->
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+    <li class="breadcrumb-item"><a href="{{url_for('perplexity.perplexity_index')}}">Perplexity</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Búsqueda básica</li>
+  </ol>
+</nav>
+</div>
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+        <h1>Búsqueda básica</h1>
+        <form action="{{ url_for('perplexity.perplexity_busqueda') }}" method="post">
+            <div class="form-group">
+                <label for="prompt">Prompt</label>
+                <textarea name="prompt" id="prompt" class="form-control" placeholder="Indica tu pregunta">{{ request.form.prompt or '' }}</textarea>
+            </div>
+
+            <hr />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <input type="submit" value="Enviar" title="Enviar" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+<!-- Solo mostrar la respuesta y el tiempo si viene de una petición POST y hay datos -->
+{% if   respuesta %}
+<div class="row mt-4">
+    <div class="card">
+        <div className="card-header">
+            <h3 className="card-title">Respuesta de Perplexity AI:</h3>
+            <h5>Se tomó {{tiempo_transcurrido}} segundos</h5>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <pre class="mb-0" style="white-space: pre-wrap;">
+                    {{respuesta.respuesta}}
+                </pre>
+            </div>
+            <div class="alert alert-primary">
+                  {% if respuesta.citas %}
+                <div class="mb-4">
+                    <h5 class="text-success mb-3">🔗 Fuentes verificadas ({{ respuesta.citas|length }}):</h5>
+                    <div class="sources-container">
+                        {% for cita in respuesta.citas %}
+                        <div class="source-item mb-3 p-3 border rounded">
+                            <div class="d-flex align-items-start">
+                                <span class="badge bg-secondary me-2 mt-1">{{ loop.index }}</span>
+                                <div class="source-content">
+                                    {% if cita.startswith('http') %}
+                                        <a href="{{ cita }}" target="_blank" class="text-break">
+                                            {{ cita }}
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">{{ cita }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    <h6>ℹ️ Información general</h6>
+                    <small>Esta respuesta se basa en conocimiento general sin fuentes específicas citadas.</small>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row mt-4">
+    <div class="card">
+         
+        <div class="card-body">
+            <div class="alert alert-warning">
+                No se recibió respuesta de la IA
+            </div>
+        </div>
+    </div>
+</div>
+ {%endif%}
+{% endblock %}
