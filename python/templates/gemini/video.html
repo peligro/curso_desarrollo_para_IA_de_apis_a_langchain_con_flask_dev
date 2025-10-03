@@ -1,0 +1,95 @@
+{% extends 'layouts/frontend.html' %} {% block title%} Gemini {%endblock%}
+<!---->
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('gemini.gemini_index')}}">Gemini</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Analizar Video</li>
+        </ol>
+    </nav>
+</div>
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+        <h1>Analizar Video MP4</h1>
+        
+        <!-- Reproductor de video -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title">Reproducir Video</h5>
+            </div>
+            <div class="card-body">
+                <video controls class="w-100" style="max-height: 400px;">
+                    <source src="{{ url_for('static', filename='videos/video.mp4') }}" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+                <div class="mt-2">
+                    <p class="text-muted mb-1">Archivo: video.mp4</p>
+                    <small class="text-info">
+                        <i class="fas fa-info-circle"></i>
+                        Límites: máximo 20MB y ~2 minutos de duración
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario para analizar video -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Analizar Video con Gemini</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('gemini.gemini_video') }}">
+                    <input type="hidden" name="video_path" value="static/videos/video.mp4">
+                    <div class="mb-3">
+                        <label class="form-label">Archivo de video a analizar:</label>
+                        <input type="text" class="form-control" value="static/videos/video.mp4" readonly>
+                        <div class="form-text">
+                            Este video será analizado por Gemini AI para describir su contenido, 
+                            personas, acciones y contexto.
+                        </div>
+                    </div>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-video"></i> Analizar Video
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Solo mostrar la respuesta y el tiempo si viene de una petición POST y hay datos -->
+{% if respuesta %}
+<div class="row mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Análisis del Video por Gemini:</h3>
+            <h5>Se tomó {{tiempo_transcurrido}} segundos</h5>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <h6>Descripción del video:</h6>
+                <div class="mt-3" style="white-space: pre-wrap; background: #f8f9fa; padding: 15px; border-radius: 5px; line-height: 1.6;">
+{{respuesta}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% elif respuesta == "" %}
+<div class="row mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-warning">
+                No se pudo analizar el video o el video está vacío
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+ 
+{% endblock %}

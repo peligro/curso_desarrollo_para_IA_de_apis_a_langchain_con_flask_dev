@@ -22,10 +22,10 @@
             </div>
             <div class="card-body">
                 <audio controls class="w-100">
-                    <source src="{{ url_for('static', filename='audio/audio.mp3') }}" type="audio/mpeg">
+                    <source src="{{ url_for('static', filename='audio/audio.ogg') }}" type="audio/mpeg">
                     Tu navegador no soporta el elemento de audio.
                 </audio>
-                <p class="mt-2 text-muted">Archivo: audio.mp3</p>
+                <p class="mt-2 text-muted">Archivo: audio.ogg</p>
             </div>
         </div>
 
@@ -36,10 +36,10 @@
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ url_for('openai.openai_audio') }}">
-                    <input type="hidden" name="audio_path" value="static/audio/audio.mp3">
+                    <input type="hidden" name="audio_path" value="static/audio/audio.ogg">
                     <div class="mb-3">
                         <label class="form-label">Archivo a transcribir:</label>
-                        <input type="text" class="form-control" value="static/audio/audio.mp3" readonly>
+                        <input type="text" class="form-control" value="static/audio/audio.ogg" readonly>
                         <div class="form-text">Este es el archivo que se transcribirá usando Whisper API</div>
                     </div>
                       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

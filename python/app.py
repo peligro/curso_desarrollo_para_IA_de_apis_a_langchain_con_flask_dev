@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from http import HTTPStatus
 from flask_wtf.csrf import CSRFProtect  # ← Importa CSRFProtect
+from datetime import datetime
 
 
 # Cargar variables de entorno desde el archivo .env
@@ -11,6 +12,7 @@ load_dotenv()
 def create_app():
     app = Flask(__name__)
     app.secret_key = os.getenv('FLASK_KEY')
+    # Configuración de la clave secreta para sesiones 
     # Activa la protección CSRF
     csrf = CSRFProtect(app)
     # Registrar blueprints
@@ -63,10 +65,25 @@ def create_app():
             error=''
         return render_template('errors/500.html', **{'error': error}), HTTPStatus.INTERNAL_SERVER_ERROR
     
-
+    # Registrar el filtro datetimeformat
+    @app.template_filter('datetimeformat')
+    def datetimeformat(value, format='%H:%M:%S'):
+        """
+        Filtro para formatear timestamps en templates
+        """
+        if isinstance(value, (int, float)):
+            try:
+                return datetime.fromtimestamp(value).strftime(format)
+            except (ValueError, OSError):
+                return value
+        elif isinstance(value, datetime):
+            return value.strftime(format)
+        return value
+    
+    
     return app
 
-
+    
 
 
 

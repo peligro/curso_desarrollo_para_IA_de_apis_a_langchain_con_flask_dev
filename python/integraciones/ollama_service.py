@@ -171,3 +171,44 @@ def get_analisis_sentimiento_ollama_service(prompt, model="tinyllama"):
 
     except Exception as e:
         abort(HTTPStatus.NOT_FOUND)
+
+
+
+def get_chat_con_historial_ollama_service(mensajes_historial, model="tinyllama"):
+    """
+    Realiza una consulta a Ollama con historial de conversación completo
+    mensajes_historial: Lista de mensajes con formato [{"role": "user/assistant", "content": "mensaje"}, ...]
+    """
+    
+    data = {
+        "model": model,
+        "messages": mensajes_historial,
+        "stream": True  # Mantenemos streaming para mejor experiencia de usuario
+    }
+    
+    try:
+        response = requests.post(
+            f"{os.getenv('OLLAMA_BASE_URL')}api/chat",
+            json=data,
+            stream=True,
+            timeout=60
+        )
+        
+        if response.status_code == 200:
+            full_response = ""
+            for line in response.iter_lines():
+                if line:
+                    line_data = json.loads(line)
+                    if 'message' in line_data and 'content' in line_data['message']:
+                        chunk = line_data['message']['content']
+                        full_response += chunk
+                    if line_data.get('done', False):
+                        break
+            return full_response
+        else:
+            print(f"Error en Ollama API: {response.status_code}")
+            abort(HTTPStatus.NOT_FOUND)
+            
+    except Exception as e:
+        print(f"Error en conexión con Ollama: {e}")
+        abort(HTTPStatus.NOT_FOUND)

@@ -1,0 +1,94 @@
+{% extends 'layouts/frontend.html' %} {% block title %} Ollama {% endblock %}
+
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('ollama.ollama_index')}}">Ollama AI</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chat con historial</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+        <h1>Chat con historial 
+            <small class="text-muted">({{ historial|length }} mensajes)</small>
+        </h1>
+        
+        <!-- Botón para limpiar historial -->
+        <form action="{{ url_for('ollama.ollama_chat_con_historial') }}" method="post" class="mb-3">
+            <input type="hidden" name="accion" value="limpiar">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button type="submit" class="btn btn-warning btn-sm" 
+                    onclick="return confirm('¿Estás seguro de limpiar el historial?')">
+                <i class="fas fa-trash"></i> Limpiar Historial
+            </button>
+        </form>
+
+        <form action="{{ url_for('ollama.ollama_chat_con_historial') }}" method="post">
+            <div class="form-group">
+                <label for="prompt">Prompt</label>
+                <textarea name="prompt" id="prompt" class="form-control" 
+                          placeholder="Escribe tu mensaje aquí..." rows="3">{{ request.form.prompt or '' }}</textarea>
+            </div>
+
+            <hr />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <input type="submit" value="Enviar Mensaje" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+
+<!-- Mostrar historial de conversación -->
+{% if historial %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Historial de Conversación</h3>
+            </div>
+            <div class="card-body">
+                <div class="chat-history" style="max-height: 400px; overflow-y: auto;">
+                    {% for mensaje in historial %}
+                    <div class="message mb-3 {% if mensaje.rol == 'usuario' %}text-end{% else %}text-start{% endif %}">
+                        <div class="alert {% if mensaje.rol == 'usuario' %}alert-primary{% else %}alert-success{% endif %} d-inline-block">
+                            <strong>{% if mensaje.rol == 'usuario' %}Tú{% else %}IA{% endif %}:</strong>
+                            <div class="message-content" style="white-space: pre-wrap;">{{ mensaje.mensaje }}</div>
+                            <small class="text-muted">
+                                #{{ mensaje.id }} - 
+                                {{ mensaje.timestamp | datetimeformat if mensaje.timestamp }}
+                            </small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Mostrar última respuesta destacada -->
+{% if respuesta %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Última Respuesta de Ollama AI</h3>
+                <h5 class="card-subtitle">Tiempo: {{ tiempo_transcurrido }} segundos</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <pre class="mb-0" style="white-space: pre-wrap;">{{ respuesta }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -351,3 +351,95 @@ def transcribir_audio_gemini(audio_file_path):
             
     except Exception as e:
         abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=f"Error interno: {str(e)}")
+
+
+def analizar_video_gemini(video_file_path, pregunta_personalizada=None):
+    """
+    Analiza un video MP4 usando Google Gemini.
+    
+    Args:
+        video_file_path (str): Ruta local al archivo de video MP4
+        pregunta_personalizada (str): Pregunta específica sobre el video
+        
+    Returns:
+        str: Análisis del contenido del video
+    """
+    try:
+        # Verificar que el archivo existe
+        if not os.path.exists(video_file_path):
+            abort(HTTPStatus.BAD_REQUEST, description="El archivo de video no existe")
+        
+        # Verificar tamaño del archivo (límite de Gemini: ~20MB)
+        file_size = os.path.getsize(video_file_path) / (1024 * 1024)
+        if file_size > 20:
+            abort(HTTPStatus.BAD_REQUEST, description="El video es demasiado grande (máximo 20MB)")
+        
+        # Verificar duración (límite aproximado: 2 minutos)
+        # Podrías agregar una verificación de duración con librerías como moviepy
+        
+        # Leer el archivo de video y convertirlo a base64
+        with open(video_file_path, 'rb') as video_file:
+            video_data = video_file.read()
+            video_base64 = base64.b64encode(video_data).decode('utf-8')
+        
+        # Construir el prompt
+        if pregunta_personalizada:
+            prompt_text = pregunta_personalizada
+        else:
+            prompt_text = """
+            Analiza este video y describe:
+            1. Qué se ve en el video (escenas, personas, objetos, acciones)
+            2. El contexto o situación
+            3. Elementos importantes o destacados
+            
+            Sé descriptivo y objetivo.
+            """
+        
+        # Preparar el payload para Gemini
+        payload = {
+            'contents': [
+                {
+                    'parts': [
+                        {'text': prompt_text},
+                        {
+                            'inline_data': {
+                                'mime_type': 'video/mp4',
+                                'data': video_base64
+                            }
+                        }
+                    ]
+                }
+            ],
+            'generationConfig': {
+                'temperature': 0.2,
+                'maxOutputTokens': 1000,
+            }
+        }
+        
+        # Realizar la solicitud a Gemini
+        response = requests.post(
+            f"{os.getenv('GEMINI_BASE_URL')}models/gemini-2.0-flash:generateContent?key={os.getenv('GEMINI_API_KEY')}",
+            headers=get_cabeceros(),
+            json=payload,
+            timeout=120  # Timeout más largo para videos
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Verificar bloqueos de seguridad
+            if 'promptFeedback' in data and 'blockReason' in data['promptFeedback']:
+                abort(HTTPStatus.BAD_REQUEST, description="El video no puede ser analizado debido a restricciones de contenido")
+            
+            # Extraer el análisis
+            if 'candidates' in data and len(data['candidates']) > 0:
+                analisis = data['candidates'][0]['content']['parts'][0]['text']
+                return analisis.strip()
+            else:
+                abort(HTTPStatus.BAD_REQUEST, description="Gemini no devolvió un análisis válido")
+        else:
+            error_msg = f"Error al analizar el video: {response.status_code} - {response.text}"
+            abort(HTTPStatus.BAD_REQUEST, description=error_msg)
+            
+    except Exception as e:
+        abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=f"Error interno: {str(e)}")

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash
 from http import HTTPStatus
-from integraciones.gemini import get_consulta_simple_gemini, get_consulta_sql_gemini, get_traduccion_gemini, get_analisis_sentimiento_gemini, get_consulta_imagen_gemini, transcribir_audio_gemini
+from integraciones.gemini import get_consulta_simple_gemini, get_consulta_sql_gemini, get_traduccion_gemini, get_analisis_sentimiento_gemini, get_consulta_imagen_gemini, transcribir_audio_gemini, analizar_video_gemini
 import time
 
 
@@ -198,3 +198,37 @@ def gemini_audio():
             flash(f"Error al transcribir el audio: {str(e)}", "danger")
             return render_template('gemini/audio.html'), HTTPStatus.INTERNAL_SERVER_ERROR
     return render_template('gemini/audio.html')
+
+
+@gemini_bp.route('/gemini/video', methods=['GET', 'POST'])
+def gemini_video():
+    if request.method == 'POST':
+        video_path = request.form.get('video_path', '').strip()  # Cambiar audio_path por video_path
+        
+        if not video_path:
+            flash("No se especificó la ruta del video.", "danger")
+            return render_template('gemini/video.html'), HTTPStatus.BAD_REQUEST
+        
+        # Inicio del timer
+        start_time = time.time()
+
+        try:
+            # Llamada a la API de Gemini para analizar video
+            respuesta = analizar_video_gemini(video_path)  # Cambiar por la función de video
+            
+            # Fin del timer
+            end_time = time.time()
+            
+            # Calcular el tiempo transcurrido en segundos
+            tiempo_transcurrido = round(end_time - start_time, 2)
+            
+            data = {
+                'tiempo_transcurrido': tiempo_transcurrido,
+                'respuesta': respuesta
+            }
+            return render_template('gemini/video.html', **data)
+            
+        except Exception as e:
+            flash(f"Error al analizar el video: {str(e)}", "danger")
+            return render_template('gemini/video.html'), HTTPStatus.INTERNAL_SERVER_ERROR
+    return render_template('gemini/video.html')

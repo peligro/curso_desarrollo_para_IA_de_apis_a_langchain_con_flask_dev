@@ -141,3 +141,36 @@ def get_analisis_sentimiento_mistral(texto):
         return response.json()["choices"][0]["message"]["content"]
     else:
         abort(HTTPStatus.NOT_FOUND)
+
+
+
+def get_chat_con_historial_mistral(mensajes_historial ):
+    """
+    Realiza una consulta a Mistral AI con historial de conversación completo
+    mensajes_historial: Lista de mensajes con formato [{"role": "user/assistant", "content": "mensaje"}, ...]
+    """
+    
+    data = {
+        "model": "mistral-small",
+        "messages": mensajes_historial,
+        "temperature": 0.3
+    }
+    
+    try:
+        response = requests.post(
+            f"{os.getenv('MISTRAL_BASE_URL')}chat/completions",
+            headers=get_cabeceros_mistral(),
+            json=data,
+            timeout=60
+        )
+        
+        if response.status_code == 200:
+            response_json = response.json()
+            return response_json["choices"][0]["message"]["content"]
+        else:
+            print(f"Error en Mistral API: {response.status_code} - {response.text}")
+            abort(HTTPStatus.NOT_FOUND)
+            
+    except Exception as e:
+        print(f"Error en conexión con Mistral: {e}")
+        abort(HTTPStatus.NOT_FOUND)
