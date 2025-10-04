@@ -58,25 +58,16 @@
                                 
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSeguridad" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-sitemap"></i> Integración IAs Modelos locales
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownSeguridad">
-                                <li>
-                                    <a class="dropdown-item" href="{{url_for('ollama.ollama_index', _external=True)}}">Ollama</a>
-                                </li>
-                                
-                                
-                            </ul>
-                        </li>
+                         
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSeguridad" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-sitemap"></i> Integración IAs via API
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownSeguridad">
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('ollama.ollama_index', _external=True)}}">Ollama (Modelos locales)</a>
+                                </li>
                                 <li>
                                     <a class="dropdown-item" href="{{url_for('mistral.mistral_index', _external=True)}}">Mistral AI (Capa gratuita)</a>
                                 </li>
@@ -95,6 +86,19 @@
                                 <li>
                                     <a class="dropdown-item" href="{{url_for('perplexity.perplexity_index', _external=True)}}">Perplexity</a>
                                 </li>
+                                
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSeguridad" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-sitemap"></i> RAG (Retrieval Augmented Generation)
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownSeguridad">
+                                <li>
+                                    <a class="dropdown-item" href="{{url_for('rag.rag_index', _external=True)}}">RAG (Retrieval Augmented Generation)</a>
+                                </li>
+                                
                                 
                             </ul>
                         </li>

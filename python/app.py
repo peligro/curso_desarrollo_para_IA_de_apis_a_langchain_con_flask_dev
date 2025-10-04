@@ -5,13 +5,12 @@ from http import HTTPStatus
 from flask_wtf.csrf import CSRFProtect  # ← Importa CSRFProtect
 from datetime import datetime
 
-
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = os.getenv('FLASK_KEY')
+    app.secret_key = os.getenv('FLASK_KEY') 
     # Configuración de la clave secreta para sesiones 
     # Activa la protección CSRF
     csrf = CSRFProtect(app)
@@ -30,6 +29,7 @@ def create_app():
     from routes.ollama.main import ollama_bp
     from routes.claude.main import claude_bp
     from routes.perplexity.main import perplexity_bp
+    from routes.rag.main import rag_bp
 
     
     app.register_blueprint(main_bp)
@@ -47,7 +47,7 @@ def create_app():
     app.register_blueprint(ollama_bp)
     app.register_blueprint(claude_bp)
     app.register_blueprint(perplexity_bp)
-    
+    app.register_blueprint(rag_bp)
 
 
     # Manejador personalizado para error 404
@@ -82,6 +82,8 @@ def create_app():
         elif isinstance(value, datetime):
             return value.strftime(format)
         return value
+    
+
     
 
     return app

@@ -174,3 +174,6 @@ def get_chat_con_historial_mistral(mensajes_historial ):
     except Exception as e:
         print(f"Error en conexión con Mistral: {e}")
         abort(HTTPStatus.NOT_FOUND)
+
+
+

@@ -14,5 +14,9 @@ boto3==1.35.87
 #pycurl
 pycurl==7.45.3
 
+# PyPDF2 para procesar PDFs en RAG
+PyPDF2==3.0.1
+
+
 #Flask-SQLAlchemy==3.1.1
 #psycopg2-binary==2.9.9
