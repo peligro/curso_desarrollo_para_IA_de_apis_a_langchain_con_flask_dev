@@ -134,4 +134,7 @@ def obtener_historial_formateado_claude():
         })
     
     return mensajes_formateados
+
+
+
 ############FIN SESIONES

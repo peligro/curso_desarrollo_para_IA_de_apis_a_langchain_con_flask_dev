@@ -1,0 +1,340 @@
+{% extends 'layouts/frontend.html' %} 
+{% block title %} Perplexity AI - Citas Automáticas {% endblock %}
+
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('perplexity.perplexity_index')}}">Perplexity AI</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Citas automáticas</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+        <h1>Perplexity AI - Sistema de Citas Automáticas</h1>
+        <p class="text-muted">Genera citas académicas con fuentes verificadas automáticamente</p>
+        
+        <form action="{{ url_for('perplexity.perplexity_citas_automaticas') }}" method="post">
+            <!-- Texto a analizar -->
+            <div class="form-group mb-3">
+                <label for="texto" class="form-label">Texto a analizar *</label>
+                <textarea name="texto" id="texto" class="form-control" 
+                          placeholder="Pega aquí el texto que necesita citas y fuentes verificadas..." 
+                          rows="6" required>{{ texto_original or '' }}</textarea>
+                <small class="form-text text-muted">
+                    Perplexity identificará afirmaciones clave y buscará fuentes confiables para respaldarlas.
+                </small>
+            </div>
+
+            <!-- Selector de formato -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="formato_cita" class="form-label">📝 Formato de cita</label>
+                        <select name="formato_cita" id="formato_cita" class="form-control">
+                            {% for key, formato in formatos.items() %}
+                            <option value="{{ key }}" 
+                                    {% if formato_seleccionado == key %}selected{% endif %}
+                                    data-ejemplo="{{ formato.ejemplo }}">
+                                {{ formato.nombre }} - {{ formato.descripcion }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">📋 Ejemplo de formato:</label>
+                        <div class="alert alert-light border">
+                            <small id="ejemplo_formato" class="text-muted">
+                                {{ formatos.apa.ejemplo }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opciones adicionales -->
+            <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" name="incluir_resumen" id="incluir_resumen" 
+                       {% if incluir_resumen %}checked{% endif %}>
+                <label class="form-check-label" for="incluir_resumen">
+                    Incluir resumen ejecutivo y análisis de calidad
+                </label>
+            </div>
+
+            <hr />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button type="submit" class="btn btn-primary btn-lg">
+                📚 Generar Citas Automáticas
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Mostrar resultados de citas -->
+{% if resultado and not resultado.error %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">📚 Citas Generadas Automáticamente</h3>
+                    <div class="text-end">
+                        <small class="text-light">{{ resultado.citas_estructuradas|length }} afirmaciones</small><br>
+                        <small class="text-light">{{ tiempo_total }} segundos</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <!-- Resumen general -->
+                <div class="alert alert-info mb-4">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <h4 class="text-primary">{{ resultado.citas_estructuradas|length }}</h4>
+                            <small class="text-muted">Afirmaciones respaldadas</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h4 class="text-success">{{ resultado.total_fuentes }}</h4>
+                            <small class="text-muted">Fuentes totales</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h4 class="text-warning">{{ resultado.formato_usado }}</h4>
+                            <small class="text-muted">Formato utilizado</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h4 class="text-info">{{ resultado.citas_encontradas|length }}</h4>
+                            <small class="text-muted">Enlaces encontrados</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citas estructuradas -->
+                {% if resultado.citas_estructuradas %}
+                <div class="mb-4">
+                    <h4 class="text-primary mb-3">🔍 Afirmaciones Respaladas con Fuentes</h4>
+                    
+                    {% for cita in resultado.citas_estructuradas %}
+                    <div class="citation-item card mb-4 border-start border-4 border-success">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Afirmación -->
+                                    <h6 class="text-success mb-3">
+                                        <i class="fas fa-quote-left me-2"></i>
+                                        Afirmación {{ loop.index }}:
+                                    </h6>
+                                    <div class="alert alert-light border mb-3">
+                                        <p class="mb-0 fw-bold">{{ cita.afirmacion }}</p>
+                                    </div>
+                                    
+                                    <!-- Cita -->
+                                    {% if cita.cita_texto and cita.cita_texto|length > 10 %}
+                                    <h6 class="text-primary mb-2">
+                                        <i class="fas fa-book me-2"></i>
+                                        Cita {{ resultado.formato_usado }}:
+                                    </h6>
+                                    <div class="alert alert-light border mb-3">
+                                        <p class="mb-0">{{ cita.cita_texto }}</p>
+                                    </div>
+                                    {% else %}
+                                    <div class="alert alert-warning mb-3">
+                                        <small>
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            Cita no disponible en el formato solicitado. 
+                                            {% if cita.fuente_url %}
+                                            Se encontró la fuente pero no la cita específica.
+                                            {% else %}
+                                            No se pudo generar la cita automáticamente.
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <!-- Fuente -->
+                                    {% if cita.fuente_url and cita.fuente_url|length > 10 %}
+                                    <h6 class="text-info mb-2">
+                                        <i class="fas fa-link me-2"></i>
+                                        Fuente:
+                                    </h6>
+                                    <div class="mb-3">
+                                        {% if 'http' in cita.fuente_url %}
+                                        <a href="{{ cita.fuente_url }}" target="_blank" class="text-break d-block text-primary">
+                                            <small><i class="fas fa-external-link-alt me-1"></i> {{ cita.fuente_url }}</small>
+                                        </a>
+                                        {% else %}
+                                        <small class="text-muted">{{ cita.fuente_url }}</small>
+                                        {% endif %}
+                                    </div>
+                                    {% else %}
+                                    <div class="alert alert-secondary mb-3">
+                                        <small>
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            No se encontró una fuente específica para esta afirmación.
+                                        </small>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <!-- Explicación -->
+                                    {% if cita.explicacion and cita.explicacion|length > 10 %}
+                                    <h6 class="text-warning mb-2">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Explicación:
+                                    </h6>
+                                    <div class="alert alert-light border">
+                                        <p class="mb-0 text-muted"><small>{{ cita.explicacion }}</small></p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if not loop.last %}
+                    <hr class="my-4">
+                    {% endif %}
+                    
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    <h6>⚠️ No se pudieron extraer citas estructuradas</h6>
+                    <p class="mb-0">Pero se encontraron {{ resultado.total_fuentes }} fuentes. Revisa la respuesta completa más abajo.</p>
+                </div>
+                {% endif %}
+
+                <!-- Lista completa de fuentes -->
+                {% if resultado.citas_encontradas %}
+                <div class="mb-4">
+                    <h4 class="text-success mb-3">🔗 Todas las Fuentes Encontradas</h4>
+                    <div class="list-group">
+                        {% for fuente in resultado.citas_encontradas %}
+                        <a href="{{ fuente }}" target="_blank" class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-break">
+                                    <i class="fas fa-external-link-alt me-2 text-muted"></i>
+                                    {{ fuente }}
+                                </small>
+                                <span class="badge bg-primary rounded-pill">{{ loop.index }}</span>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Respuesta completa de Perplexity -->
+                <div class="mb-4">
+                    <h4 class="text-info mb-3">📊 Respuesta Completa de Perplexity</h4>
+                    <div class="alert alert-light border">
+                        <div style="white-space: pre-wrap; line-height: 1.6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                            {{ resultado.respuesta_completa }}
+                        </div>
+                    </div>
+                </div>
+
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+{% elif resultado and resultado.error %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-danger">
+            <h5><i class="fas fa-exclamation-triangle me-2"></i>Error generando citas</h5>
+            <p class="mb-0">{{ resultado.respuesta_completa }}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+.citation-item {
+    border-left: 4px solid #28a745;
+    transition: all 0.3s ease;
+}
+
+.citation-item:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.text-break {
+    word-break: break-all;
+}
+
+.alert-light {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.citation-item .card-body {
+    padding: 1.5rem;
+}
+
+/* Mejora la legibilidad de los textos largos */
+.alert-light div {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Estilos para los iconos */
+.fas {
+    opacity: 0.8;
+}
+</style>
+
+<script>
+// Actualizar ejemplo de formato cuando cambie la selección
+document.getElementById('formato_cita').addEventListener('change', function() {
+    const ejemplo = this.options[this.selectedIndex].getAttribute('data-ejemplo');
+    document.getElementById('ejemplo_formato').textContent = ejemplo;
+});
+
+// Contador de caracteres para el texto
+document.getElementById('texto').addEventListener('input', function() {
+    const contador = document.getElementById('contador-caracteres') || 
+                     document.createElement('small');
+    
+    if (!document.getElementById('contador-caracteres')) {
+        contador.id = 'contador-caracteres';
+        contador.className = 'form-text text-muted mt-1';
+        this.parentNode.appendChild(contador);
+    }
+    
+    const caracteres = this.value.length;
+    let mensaje = `${caracteres} caracteres - `;
+    
+    if (caracteres === 0) {
+        mensaje += 'El texto está vacío';
+    } else if (caracteres < 50) {
+        mensaje += 'Texto muy corto (mínimo recomendado: 50 caracteres)';
+    } else if (caracteres < 200) {
+        mensaje += 'Texto adecuado';
+    } else if (caracteres < 500) {
+        mensaje += 'Texto extenso';
+    } else {
+        mensaje += 'Texto muy extenso (puede tomar más tiempo)';
+    }
+    
+    contador.textContent = mensaje;
+});
+
+ 
+
+// Inicializar contador al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    const textoArea = document.getElementById('texto');
+    if (textoArea && textoArea.value) {
+        textoArea.dispatchEvent(new Event('input'));
+    }
+});
+</script>
+{% endblock %}

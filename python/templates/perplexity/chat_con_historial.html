@@ -1,11 +1,11 @@
-{% extends 'layouts/frontend.html' %} {% block title %} Mistral {% endblock %}
+{% extends 'layouts/frontend.html' %} {% block title %} Perplexity {% endblock %}
 
 {% block content %}
 <div class="row">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-            <li class="breadcrumb-item"><a href="{{url_for('mistral.mistral_index')}}">Mistral AI</a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('perplexity.perplexity_index')}}">Perplexity AI</a></li>
             <li class="breadcrumb-item active" aria-current="page">Chat con historial</li>
         </ol>
     </nav>
@@ -14,12 +14,12 @@
 <div class="row">
     <div class="col-12">
         {% include('componentes/flash.html') %}
-        <h1>Mistral AI - Chat con historial 
+        <h1>Perplexity AI - Chat con historial 
             <small class="text-muted">({{ historial|length }} mensajes)</small>
         </h1>
         
         <!-- Botón para limpiar historial -->
-        <form action="{{ url_for('mistral.mistral_chat_con_historial') }}" method="post" class="mb-3">
+        <form action="{{ url_for('perplexity.perplexity_chat_con_historial') }}" method="post" class="mb-3">
             <input type="hidden" name="accion" value="limpiar">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <button type="submit" class="btn btn-warning btn-sm" 
@@ -28,7 +28,7 @@
             </button>
         </form>
 
-        <form action="{{ url_for('mistral.mistral_chat_con_historial') }}" method="post">
+        <form action="{{ url_for('perplexity.perplexity_chat_con_historial') }}" method="post">
             <div class="form-group">
                 <label for="prompt">Prompt</label>
                 <textarea name="prompt" id="prompt" class="form-control" 
@@ -78,7 +78,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Última Respuesta de Mistral AI</h3>
+                <h3 class="card-title">Última Respuesta de Perplexity AI</h3>
                 <h5 class="card-subtitle">Tiempo: {{ tiempo_transcurrido }} segundos</h5>
             </div>
             <div class="card-body">

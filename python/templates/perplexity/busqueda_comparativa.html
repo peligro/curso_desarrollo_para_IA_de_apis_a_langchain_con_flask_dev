@@ -1,0 +1,233 @@
+{% extends 'layouts/frontend.html' %} 
+{% block title %} Perplexity AI - Búsqueda Comparativa {% endblock %}
+
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('perplexity.perplexity_index')}}">Perplexity AI</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Búsqueda comparativa</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+        <h1>Perplexity AI - Búsqueda Comparativa</h1>
+        <p class="text-muted">Compara respuestas conversacionales vs búsqueda tradicional</p>
+        
+        <form action="{{ url_for('perplexity.perplexity_busqueda_comparativa') }}" method="post">
+            <div class="form-group mb-3">
+                <label for="pregunta" class="form-label">Pregunta a comparar *</label>
+                <textarea name="pregunta" id="pregunta" class="form-control" 
+                          placeholder="Escribe la pregunta que quieres comparar entre ambos enfoques..." 
+                          rows="4" required>{{ pregunta_original or '' }}</textarea>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="incluir_analisis" id="incluir_analisis" 
+                       {% if incluir_analisis %}checked{% endif %}>
+                <label class="form-check-label" for="incluir_analisis">
+                    Incluir análisis comparativo automático
+                </label>
+                <small class="form-text text-muted d-block">
+                    Perplexity analizará y comparará ambas respuestas automáticamente
+                </small>
+            </div>
+
+            <hr />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button type="submit" class="btn btn-primary btn-lg">
+                ⚖️ Realizar Búsqueda Comparativa
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Mostrar resultados comparativos -->
+{% if resultado and not resultado.error %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h3 class="card-title mb-0">⚖️ Resultado Comparativo</h3>
+                <small class="text-light">Tiempo total: {{ tiempo_total }} segundos</small>
+            </div>
+            <div class="card-body">
+                <!-- Pregunta original -->
+                <div class="alert alert-secondary mb-4">
+                    <h5 class="mb-2">❓ Pregunta original:</h5>
+                    <p class="mb-0 lead">{{ resultado.pregunta_original }}</p>
+                </div>
+
+                <div class="row">
+                    <!-- Columna Perplexity -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border-success">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="card-title mb-0">🤖 Perplexity AI</h5>
+                                <small class="text-light">Enfoque conversacional</small>
+                                {% if resultado.tiempos.perplexity %}
+                                <small class="text-light float-end">{{ resultado.tiempos.perplexity }}s</small>
+                                {% endif %}
+                            </div>
+                            <div class="card-body">
+                                {% if resultado.resultados.perplexity.error %}
+                                <div class="alert alert-danger">
+                                    {{ resultado.resultados.perplexity.respuesta }}
+                                </div>
+                                {% else %}
+                                <div class="response-content mb-3">
+                                    <div style="white-space: pre-wrap; line-height: 1.6;">
+                                        {{ resultado.resultados.perplexity.respuesta }}
+                                    </div>
+                                </div>
+                                
+                                {% if resultado.resultados.perplexity.citas %}
+                                <div class="sources-section">
+                                    <h6 class="text-success">🔗 Fuentes:</h6>
+                                    <div class="list-group">
+                                        {% for cita in resultado.resultados.perplexity.citas %}
+                                        <a href="{{ cita }}" target="_blank" class="list-group-item list-group-item-action">
+                                            <small>{{ cita }}</small>
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Tradicional -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">🔍 Búsqueda Tradicional</h5>
+                                <small class="text-light">Enfoque directo tipo Google</small>
+                                {% if resultado.tiempos.tradicional %}
+                                <small class="text-light float-end">{{ resultado.tiempos.tradicional }}s</small>
+                                {% endif %}
+                            </div>
+                            <div class="card-body">
+                                {% if resultado.resultados.tradicional.error %}
+                                <div class="alert alert-danger">
+                                    {{ resultado.resultados.tradicional.respuesta }}
+                                </div>
+                                {% else %}
+                                <div class="response-content mb-3">
+                                    <div style="white-space: pre-wrap; line-height: 1.6;">
+                                        {{ resultado.resultados.tradicional.respuesta }}
+                                    </div>
+                                </div>
+                                
+                                {% if resultado.resultados.tradicional.citas %}
+                                <div class="sources-section">
+                                    <h6 class="text-primary">🔗 Fuentes:</h6>
+                                    <div class="list-group">
+                                        {% for cita in resultado.resultados.tradicional.citas %}
+                                        <a href="{{ cita }}" target="_blank" class="list-group-item list-group-item-action">
+                                            <small>{{ cita }}</small>
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Análisis comparativo -->
+                {% if resultado.analisis_comparativo %}
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="card-title mb-0">📊 Análisis Comparativo Automático</h5>
+                            </div>
+                            <div class="card-body">
+                                <div style="white-space: pre-wrap; line-height: 1.6;">
+                                    {{ resultado.analisis_comparativo }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Resumen de tiempos -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h6 class="card-title mb-0">⏱️ Resumen de Tiempos</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-4">
+                                        <h5 class="text-success">{{ resultado.tiempos.perplexity }}s</h5>
+                                        <small class="text-muted">Perplexity AI</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5 class="text-primary">{{ resultado.tiempos.tradicional }}s</h5>
+                                        <small class="text-muted">Búsqueda Tradicional</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5 class="text-info">{{ tiempo_total }}s</h5>
+                                        <small class="text-muted">Tiempo Total</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% elif resultado and resultado.error %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-danger">
+            <h5>❌ Error en la búsqueda comparativa</h5>
+            <p class="mb-0">{{ resultado.mensaje_error }}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.response-content {
+    min-height: 200px;
+}
+
+.sources-section {
+    margin-top: 15px;
+}
+
+.list-group-item {
+    padding: 0.5rem 0.75rem;
+}
+
+.border-success {
+    border: 2px solid #28a745 !important;
+}
+
+.border-primary {
+    border: 2px solid #007bff !important;
+}
+
+.border-warning {
+    border: 2px solid #ffc107 !important;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,194 @@
+{% extends 'layouts/frontend.html' %} 
+{% block title %} Perplexity AI - Investigación Avanzada {% endblock %}
+
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('perplexity.perplexity_index')}}">Perplexity AI</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Investigación avanzada</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        {% include('componentes/flash.html') %}
+        <h1>Perplexity AI - Investigación Avanzada</h1>
+        <p class="text-muted">Búsqueda personalizada con parámetros específicos</p>
+        
+        <form action="{{ url_for('perplexity.perplexity_investigacion_avanzada') }}" method="post">
+            <!-- Pregunta principal -->
+            <div class="form-group mb-3">
+                <label for="pregunta" class="form-label">Pregunta de investigación *</label>
+                <textarea name="pregunta" id="pregunta" class="form-control" 
+                          placeholder="Escribe tu pregunta de investigación..." 
+                          rows="4" required>{{ pregunta_original or '' }}</textarea>
+            </div>
+
+            <!-- Parámetros avanzados -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="dominio" class="form-label">🔍 Dominio específico</label>
+                        <select name="dominio" id="dominio" class="form-control">
+                            <option value="">Cualquier dominio</option>
+                            {% for key, value in parametros.dominios.items() %}
+                            <option value="{{ value }}">{{ key|title }} ({{ value }})</option>
+                            {% endfor %}
+                        </select>
+                        <small class="form-text text-muted">Restringir búsqueda a sitios específicos</small>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="fecha" class="form-label">📅 Rango de fecha</label>
+                        <select name="fecha" id="fecha" class="form-control">
+                            <option value="">Cualquier fecha</option>
+                            {% for key, value in parametros.rangos_fecha.items() %}
+                            <option value="{{ value }}">{{ value|title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        <label for="idioma" class="form-label">🌐 Idioma preferido</label>
+                        <select name="idioma" id="idioma" class="form-control">
+                            <option value="">Cualquier idioma</option>
+                            {% for key, value in parametros.idiomas.items() %}
+                            <option value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        <label for="enfoque" class="form-label">🎯 Enfoque</label>
+                        <select name="enfoque" id="enfoque" class="form-control">
+                            <option value="">Enfoque general</option>
+                            {% for key, value in parametros.enfoques.items() %}
+                            <option value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        <label for="profundidad" class="form-label">📊 Profundidad</label>
+                        <select name="profundidad" id="profundidad" class="form-control">
+                            {% for key, value in parametros.profundidades.items() %}
+                            <option value="{{ key }}" {% if key == 'balanceada' %}selected{% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="max_tokens" class="form-label">📝 Longitud máxima (tokens)</label>
+                <input type="range" name="max_tokens" id="max_tokens" class="form-range" 
+                       min="500" max="3000" step="100" value="1500">
+                <div class="d-flex justify-content-between">
+                    <small>500 (corto)</small>
+                    <small id="tokens_value">1500 tokens</small>
+                    <small>3000 (extenso)</small>
+                </div>
+            </div>
+
+            <hr />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button type="submit" class="btn btn-primary btn-lg">
+                🔬 Iniciar Investigación Avanzada
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Mostrar resultados -->
+{% if resultado %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">🔬 Resultado de Investigación</h3>
+                    <div class="text-end">
+                        <small class="text-light">Tiempo: {{tiempo_transcurrido}}s</small><br>
+                        <small class="text-light">Modelo: {{resultado.modelo_usado}}</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <!-- Parámetros utilizados -->
+                {% if parametros_usados %}
+                <div class="alert alert-secondary mb-4">
+                    <h6>⚙️ Parámetros aplicados:</h6>
+                    <div class="row">
+                        {% for key, value in parametros_usados.items() %}
+                        {% if key not in ['model', 'stream', 'return_citations'] %}
+                        <div class="col-md-3 mb-1">
+                            <small><strong>{{ key }}:</strong> {{ value }}</small>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Respuesta -->
+                <div class="mb-4">
+                    <h5 class="text-primary mb-3">📝 Respuesta:</h5>
+                    <div class="bg-light p-4 rounded" style="white-space: pre-wrap; line-height: 1.6;">
+                         <div class="alert alert-info">
+                            <pre class="mb-0" style="white-space: pre-wrap;">
+                                {{resultado.respuesta}}
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fuentes -->
+                {% if resultado.citas %}
+                <div class="mb-4">
+                    <h5 class="text-success mb-3">🔗 Fuentes encontradas ({{ resultado.citas|length }}):</h5>
+                    <div class="list-group">
+                        {% for cita in resultado.citas %}
+                        <a href="{{ cita }}" target="_blank" class="list-group-item list-group-item-action">
+                            <small>{{ cita }}</small>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+// Actualizar valor de tokens en tiempo real
+document.getElementById('max_tokens').addEventListener('input', function() {
+    document.getElementById('tokens_value').textContent = this.value + ' tokens';
+});
+</script>
+
+<style>
+.form-range::-webkit-slider-thumb {
+    background: #0d6efd;
+}
+
+.form-range::-moz-range-thumb {
+    background: #0d6efd;
+}
+</style>
+{% endblock %}
