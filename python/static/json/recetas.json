@@ -1,0 +1,904 @@
+[
+  {
+    "id": "1",
+    "nombre": "Ensalada caprese",
+    "ingredientes": "vinagre, maíz, lechuga, queso, sal",
+    "instrucciones": "Mezclar en un bol grande - Añadir el aliño y revolver bien",
+    "tiempo_preparacion": 60,
+    "dificultad": "dificil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "2",
+    "nombre": "Empanadas",
+    "ingredientes": "azúcar, levadura, harina, sal, leche, huevos, nueces, agua",
+    "instrucciones": "Mezclar la harina con los ingredientes secos - Añadir los líquidos y amasar",
+    "tiempo_preparacion": 40,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "3",
+    "nombre": "Sopa de fideos",
+    "ingredientes": "cebolla, pollo, ajo, tomate, zanahoria, perejil",
+    "instrucciones": "Sofreír las verduras en una olla - Añadir el caldo y los demás ingredientes - Triturar si es necesario y servir caliente - Cocinar a fuego medio durante 20-30 minutos",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "4",
+    "nombre": "Tarta de Santiago",
+    "ingredientes": "harina, azúcar, huevos, mantequilla, nueces, vainilla, canela",
+    "instrucciones": "Mezclar los ingredientes secos y los líquidos por separado - Combinar ambas mezclas y verter en un molde - Hornear a 180°C durante 30-40 minutos",
+    "tiempo_preparacion": 45,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "5",
+    "nombre": "Sándwich de pollo",
+    "ingredientes": "pan, pollo, lechuga, tomate, salsa, mayonesa, sal",
+    "instrucciones": "Preparar el pan o base - Añadir los ingredientes principales - Complementar con salsas o vegetales",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "6",
+    "nombre": "Cheesecake de fresa",
+    "ingredientes": "azúcar, huevos, leche, harina, fresa, mantequilla, vainilla",
+    "instrucciones": "Mezclar los ingredientes secos y los líquidos por separado - Combinar ambas mezclas y verter en un molde - Hornear a 180°C durante 30-40 minutos - Dejar enfriar antes de servir",
+    "tiempo_preparacion": 60,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "7",
+    "nombre": "Sopa de ajo",
+    "ingredientes": "agua, ajo, pan, aceite de oliva, sal, pimienta, perejil",
+    "instrucciones": "Sofreír las verduras en una olla - Añadir el caldo y los demás ingredientes - Cocinar a fuego medio durante 20-30 minutos",
+    "tiempo_preparacion": 30,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "8",
+    "nombre": "Tostadas con aguacate",
+    "ingredientes": "pan, aguacate, sal, limón, aceite de oliva",
+    "instrucciones": "Preparar los ingredientes principales (tostar pan, batir huevos, etc.) - Montar en un plato",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "9",
+    "nombre": "Salsa de tomate",
+    "ingredientes": "tomate, cebolla, ajo, aceite de oliva, sal, pimienta, vinagre",
+    "instrucciones": "Mezclar todos los ingredientes en un bol - Triturar o batir hasta obtener una textura homogénea - Dejar reposar 10 minutos para que los sabores se integren",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "10",
+    "nombre": "Batido de plátano",
+    "ingredientes": "leche, plátano, azúcar, hielo, yogur",
+    "instrucciones": "Mezclar todos los ingredientes en una licuadora - Añadir hielo si es necesario - Licuar hasta obtener una mezcla homogénea",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "11",
+    "nombre": "Lasaña de carne",
+    "ingredientes": "carne, pasta, queso, tomate, cebolla, ajo, sal, pimienta",
+    "instrucciones": "Cocinar los ingredientes principales en una sartén con aceite - Añadir las especias y mezclar bien - Dejar cocinar a fuego lento durante 20-30 minutos",
+    "tiempo_preparacion": 75,
+    "dificultad": "dificil",
+    "categoria": "plato principal"
+  },
+  {
+    "id": "12",
+    "nombre": "Croquetas de jamón",
+    "ingredientes": "jamón, harina, leche, huevos, pan rallado, sal, pimienta",
+    "instrucciones": "Mezclar todos los ingredientes en un bol - Formar pequeñas porciones y freír o hornear - Dejar enfriar antes de servir",
+    "tiempo_preparacion": 45,
+    "dificultad": "media",
+    "categoria": "entrante"
+  },
+  {
+    "id": "13",
+    "nombre": "Tarta de manzana",
+    "ingredientes": "harina, azúcar, manzana, mantequilla, huevos, canela",
+    "instrucciones": "Mezclar los ingredientes secos y los líquidos por separado - Combinar ambas mezclas y verter en un molde - Hornear a 180°C durante 30-40 minutos - Dejar enfriar antes de servir",
+    "tiempo_preparacion": 60,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "14",
+    "nombre": "Ensalada de quinoa",
+    "ingredientes": "quinoa, tomate, pepino, cebolla, aceite de oliva, vinagre, sal",
+    "instrucciones": "Lavar y cortar todas las verduras - Mezclar en un bol grande - Añadir el aliño y revolver bien",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "15",
+    "nombre": "Sopa de lentejas",
+    "ingredientes": "lentejas, cebolla, zanahoria, ajo, caldo, sal, pimienta",
+    "instrucciones": "Sofreír las verduras en una olla - Añadir el caldo y los demás ingredientes - Cocinar a fuego medio durante 20-30 minutos",
+    "tiempo_preparacion": 40,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "16",
+    "nombre": "Pan de molde",
+    "ingredientes": "harina, levadura, agua, sal, azúcar, mantequilla",
+    "instrucciones": "Mezclar la harina con los ingredientes secos - Añadir los líquidos y amasar - Dejar reposar la masa durante 1 hora - Hornear a 200°C durante 20-30 minutos",
+    "tiempo_preparacion": 90,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "17",
+    "nombre": "Alitas de pollo",
+    "ingredientes": "pollo, sal, pimienta, aceite, salsa barbacoa",
+    "instrucciones": "Preparar los ingredientes según sea necesario (cortar, freír, etc.) - Montar en un plato o bandeja - Añadir salsas o acompañamientos",
+    "tiempo_preparacion": 35,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "18",
+    "nombre": "Salsa boloñesa",
+    "ingredientes": "carne, tomate, cebolla, ajo, aceite de oliva, sal, pimienta",
+    "instrucciones": "Mezclar todos los ingredientes en un bol - Cocinar a fuego lento durante 20-30 minutos - Dejar reposar 10 minutos para que los sabores se integren",
+    "tiempo_preparacion": 45,
+    "dificultad": "media",
+    "categoria": "salsa"
+  },
+  {
+    "id": "19",
+    "nombre": "Limonada",
+    "ingredientes": "agua, limón, azúcar, hielo, menta",
+    "instrucciones": "Mezclar todos los ingredientes en una licuadora - Añadir hielo si es necesario - Licuar hasta obtener una mezcla homogénea - Servir frío",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "20",
+    "nombre": "Tortitas con sirope",
+    "ingredientes": "harina, huevos, leche, azúcar, mantequilla, sirope",
+    "instrucciones": "Mezclar los ingredientes secos y los líquidos por separado - Cocinar en una sartén caliente - Servir caliente acompañado de sirope",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "21",
+    "nombre": "Pizza margarita",
+    "ingredientes": "masa, tomate, queso, albahaca, aceite de oliva, sal",
+    "instrucciones": "Preparar la base - Añadir los ingredientes principales - Hornear a 200°C durante 15-20 minutos",
+    "tiempo_preparacion": 30,
+    "dificultad": "media",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "22",
+    "nombre": "Tiramisú",
+    "ingredientes": "café, mascarpone, huevos, azúcar, galletas, cacao",
+    "instrucciones": "Mezclar los ingredientes líquidos y los secos por separado - Montar en capas en un molde - Refrigerar durante 4 horas",
+    "tiempo_preparacion": 40,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "23",
+    "nombre": "Ensalada de garbanzos",
+    "ingredientes": "garbanzos, tomate, pepino, cebolla, aceite de oliva, vinagre, sal",
+    "instrucciones": "Lavar y cortar todas las verduras - Mezclar en un bol grande - Añadir el aliño y revolver bien - Servir fresco",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "24",
+    "nombre": "Sopa de miso",
+    "ingredientes": "miso, agua, cebolla, tofu, alga nori",
+    "instrucciones": "Sofreír las verduras en una olla - Añadir el caldo y los demás ingredientes - Cocinar a fuego medio durante 10-15 minutos",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "25",
+    "nombre": "Croissants",
+    "ingredientes": "harina, mantequilla, levadura, azúcar, sal, leche",
+    "instrucciones": "Mezclar la harina con los ingredientes secos - Añadir los líquidos y amasar - Dejar reposar la masa durante 1 hora - Hornear a 200°C durante 20-30 minutos",
+    "tiempo_preparacion": 60,
+    "dificultad": "dificil",
+    "categoria": "panadería"
+  },
+  {
+    "id": "26",
+    "nombre": "Banderillas",
+    "ingredientes": "aceitunas, pepinillos, cebolla, pimiento, sal",
+    "instrucciones": "Preparar los ingredientes según sea necesario (cortar, etc.) - Montar en un plato o bandeja",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "27",
+    "nombre": "Salsa de yogur",
+    "ingredientes": "yogur, ajo, limón, sal, pimienta, menta",
+    "instrucciones": "Mezclar todos los ingredientes en un bol - Dejar reposar 10 minutos para que los sabores se integren",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "28",
+    "nombre": "Café con leche",
+    "ingredientes": "café, leche, azúcar",
+    "instrucciones": "Preparar el café - Calentar la leche - Mezclar y servir caliente",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "29",
+    "nombre": "Huevos revueltos",
+    "ingredientes": "huevos, mantequilla, sal, pimienta",
+    "instrucciones": "Batir los huevos - Cocinar en una sartén con mantequilla - Servir caliente",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "30",
+    "nombre": "Perro caliente",
+    "ingredientes": "pan, salchicha, ketchup, mostaza, cebolla",
+    "instrucciones": "Preparar el pan o base - Añadir los ingredientes principales - Complementar con salsas o vegetales",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "31",
+    "nombre": "Flan de vainilla",
+    "ingredientes": "huevos, leche, azúcar, vainilla",
+    "instrucciones": "Mezclar los ingredientes líquidos y los secos por separado - Verter en un molde caramelizado - Hornear a baño maría durante 45 minutos",
+    "tiempo_preparacion": 60,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "32",
+    "nombre": "Ensalada de atún",
+    "ingredientes": "atún, lechuga, tomate, huevo, aceite de oliva, vinagre, sal",
+    "instrucciones": "Lavar y cortar todas las verduras - Mezclar en un bol grande - Añadir el aliño y revolver bien",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "33",
+    "nombre": "Sopa de calabaza",
+    "ingredientes": "calabaza, cebolla, ajo, caldo, sal, pimienta, crema",
+    "instrucciones": "Sofreír las verduras en una olla - Añadir el caldo y los demás ingredientes - Cocinar a fuego medio durante 20-30 minutos - Triturar y servir caliente",
+    "tiempo_preparacion": 40,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "34",
+    "nombre": "Magdalenas",
+    "ingredientes": "harina, azúcar, huevos, mantequilla, levadura, leche",
+    "instrucciones": "Mezclar los ingredientes secos y los líquidos por separado - Verter en moldes - Hornear a 180°C durante 20 minutos",
+    "tiempo_preparacion": 35,
+    "dificultad": "facil",
+    "categoria": "panadería"
+  },
+  {
+    "id": "35",
+    "nombre": "Canapés de salmón",
+    "ingredientes": "pan, salmón, queso crema, eneldo, limón",
+    "instrucciones": "Preparar los ingredientes según sea necesario (cortar, etc.) - Montar en un plato o bandeja",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "36",
+    "nombre": "Salsa barbacoa",
+    "ingredientes": "tomate, vinagre, azúcar, ajo, pimentón, sal",
+    "instrucciones": "Mezclar todos los ingredientes en un bol - Cocinar a fuego lento durante 15-20 minutos",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "37",
+    "nombre": "Horchata",
+    "ingredientes": "agua, arroz, azúcar, canela",
+    "instrucciones": "Mezclar todos los ingredientes en una licuadora - Dejar reposar durante 4 horas - Colar y servir frío",
+    "tiempo_preparacion": 30,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "38",
+    "nombre": "Tostadas con mermelada",
+    "ingredientes": "pan, mantequilla, mermelada",
+    "instrucciones": "Tostar el pan - Untar con mantequilla y mermelada - Servir caliente",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "39",
+    "nombre": "Hamburguesa con queso",
+    "ingredientes": "pan, carne, queso, lechuga, tomate, salsa, cebolla",
+    "instrucciones": "Preparar el pan o base - Añadir los ingredientes principales - Complementar con salsas o vegetales",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "40",
+    "nombre": "Brownie de chocolate",
+    "ingredientes": "chocolate, mantequilla, azúcar, huevos, harina, nueces",
+    "instrucciones": "Derretir el chocolate con mantequilla - Mezclar con los demás ingredientes - Hornear a 180°C durante 25 minutos",
+    "tiempo_preparacion": 45,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "41",
+    "nombre": "Ensalada de remolacha",
+    "ingredientes": "remolacha, lechuga, queso, nueces, aceite de oliva, vinagre",
+    "instrucciones": "Lavar y cortar todas las verduras - Mezclar en un bol grande - Añadir el aliño y revolver bien",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "42",
+    "nombre": "Sopa de champiñones",
+    "ingredientes": "champiñones, cebolla, ajo, caldo, sal, pimienta, crema",
+    "instrucciones": "Sofreír las verduras en una olla - Añadir el caldo y los demás ingredientes - Cocinar a fuego medio durante 20-30 minutos",
+    "tiempo_preparacion": 35,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "43",
+    "nombre": "Baguette",
+    "ingredientes": "harina, levadura, agua, sal",
+    "instrucciones": "Mezclar la harina con los ingredientes secos - Añadir los líquidos y amasar - Dejar reposar la masa durante 1 hora - Hornear a 200°C durante 25 minutos",
+    "tiempo_preparacion": 60,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "44",
+    "nombre": "Aceitunas aliñadas",
+    "ingredientes": "aceitunas, ajo, limón, aceite de oliva, pimentón",
+    "instrucciones": "Mezclar todos los ingredientes en un bol - Dejar reposar durante 1 hora",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "45",
+    "nombre": "Salsa de queso",
+    "ingredientes": "queso, leche, mantequilla, harina, sal, pimienta",
+    "instrucciones": "Derretir la mantequilla - Añadir harina y leche - Cocinar hasta espesar - Añadir el queso y mezclar",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "46",
+    "nombre": "Sangría",
+    "ingredientes": "vino, frutas, azúcar, brandy, soda",
+    "instrucciones": "Mezclar todos los ingredientes en un jarro - Refrigerar durante 2 horas - Servir frío",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "47",
+    "nombre": "Yogur con frutas",
+    "ingredientes": "yogur, frutas, miel, granola",
+    "instrucciones": "Mezclar el yogur con las frutas - Añadir miel y granola - Servir fresco",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "48",
+    "nombre": "Pizza pepperoni",
+    "ingredientes": "masa, salsa de tomate, queso, pepperoni, orégano",
+    "instrucciones": "Preparar la base - Añadir los ingredientes principales - Hornear a 200°C durante 15-20 minutos",
+    "tiempo_preparacion": 30,
+    "dificultad": "media",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "49",
+    "nombre": "Galletas de avena",
+    "ingredientes": "avena, harina, azúcar, mantequilla, huevos, pasas",
+    "instrucciones": "Mezclar los ingredientes secos y los líquidos por separado - Formar bolitas y aplanar - Hornear a 180°C durante 15 minutos",
+    "tiempo_preparacion": 30,
+    "dificultad": "facil",
+    "categoria": "postre"
+  },
+  {
+    "id": "50",
+    "nombre": "Ensalada de espinacas",
+    "ingredientes": "espinacas, fresa, queso, nueces, vinagreta",
+    "instrucciones": "Lavar y cortar todas las verduras - Mezclar en un bol grande - Añadir el aliño y revolver bien",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "101",
+    "nombre": "Tostadas con mermelada y queso",
+    "ingredientes": "pan, mermelada, queso crema, mantequilla",
+    "instrucciones": "Tostar el pan - Untar con mantequilla, queso crema y mermelada - Servir caliente",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "102",
+    "nombre": "Empanada de carne",
+    "ingredientes": "masa, carne, cebolla, huevo, aceitunas, especias",
+    "instrucciones": "Rellenar la masa con la mezcla de carne y cebolla - Hornear a 180°C durante 30 minutos",
+    "tiempo_preparacion": 50,
+    "dificultad": "media",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "103",
+    "nombre": "Panna cotta",
+    "ingredientes": "nata, azúcar, vainilla, gelatina, frutos rojos",
+    "instrucciones": "Calentar la nata con azúcar y vainilla - Añadir gelatina y refrigerar 4 horas - Servir con frutos rojos",
+    "tiempo_preparacion": 30,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "104",
+    "nombre": "Ensalada de espárragos",
+    "ingredientes": "espárragos, huevo, vinagreta, queso, nueces",
+    "instrucciones": "Cocer los espárragos y el huevo - Mezclar con vinagreta, queso y nueces",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "105",
+    "nombre": "Sopa fría de pepino",
+    "ingredientes": "pepino, yogur, ajo, menta, sal, agua",
+    "instrucciones": "Triturar el pepino con yogur, ajo y menta - Añadir agua y refrigerar 2 horas",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "106",
+    "nombre": "Pan de maíz",
+    "ingredientes": "harina de maíz, harina de trigo, levadura, agua, sal, miel",
+    "instrucciones": "Mezclar las harinas con levadura y agua - Amasar y hornear a 200°C durante 25 minutos",
+    "tiempo_preparacion": 50,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "107",
+    "nombre": "Bastones de queso",
+    "ingredientes": "queso, pan rallado, huevo, harina, aceite",
+    "instrucciones": "Cortar el queso en bastones - Rebozar y freír hasta dorar",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "108",
+    "nombre": "Salsa de cilantro",
+    "ingredientes": "cilantro, yogur, ajo, limón, sal, pimienta",
+    "instrucciones": "Triturar el cilantro con yogur, ajo y limón - Dejar reposar 10 minutos",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "109",
+    "nombre": "Margarita",
+    "ingredientes": "tequila, limón, triple sec, sal, hielo",
+    "instrucciones": "Mezclar tequila, limón y triple sec con hielo - Servir con sal en el borde del vaso",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "110",
+    "nombre": "Tortilla de espinacas",
+    "ingredientes": "huevos, espinacas, cebolla, queso, sal, aceite",
+    "instrucciones": "Saltear espinacas y cebolla - Mezclar con huevos y cuajar en sartén",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "111",
+    "nombre": "Sándwich de atún",
+    "ingredientes": "pan, atún, mayonesa, lechuga, tomate, huevo",
+    "instrucciones": "Mezclar atún con mayonesa - Montar en pan con lechuga y tomate",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "112",
+    "nombre": "Tarta de queso",
+    "ingredientes": "queso crema, azúcar, huevos, galletas, mantequilla, vainilla",
+    "instrucciones": "Triturar galletas con mantequilla para la base - Mezclar queso con azúcar y huevos - Hornear a 180°C durante 40 minutos",
+    "tiempo_preparacion": 60,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "113",
+    "nombre": "Ensalada de garbanzos y aguacate",
+    "ingredientes": "garbanzos, aguacate, tomate, cebolla, limón, aceite de oliva",
+    "instrucciones": "Mezclar garbanzos con aguacate y tomate - Aliñar con limón y aceite",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "114",
+    "nombre": "Sopa de tomate y albahaca",
+    "ingredientes": "tomate, cebolla, ajo, albahaca, caldo, nata, sal",
+    "instrucciones": "Sofreír cebolla y ajo - Añadir tomate y caldo - Triturar y añadir nata",
+    "tiempo_preparacion": 35,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "115",
+    "nombre": "Pan de molde integral",
+    "ingredientes": "harina integral, levadura, agua, sal, azúcar, mantequilla",
+    "instrucciones": "Mezclar todos los ingredientes - Amasar y dejar reposar 1 hora - Hornear a 180°C durante 30 minutos",
+    "tiempo_preparacion": 75,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "116",
+    "nombre": "Aceitunas rellenas de anchoa",
+    "ingredientes": "aceitunas, anchoas, ajo, aceite de oliva",
+    "instrucciones": "Rellenar las aceitunas con anchoas - Aliñar con ajo y aceite",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "117",
+    "nombre": "Salsa de pimientos asados",
+    "ingredientes": "pimiento rojo, ajo, aceite de oliva, vinagre, sal",
+    "instrucciones": "Asar los pimientos - Pelar y triturar con ajo y aceite",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "118",
+    "nombre": "Cuba libre",
+    "ingredientes": "ron, cola, limón, hielo",
+    "instrucciones": "Mezclar ron con cola y limón - Servir con hielo",
+    "tiempo_preparacion": 5,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "119",
+    "nombre": "Huevos benedictinos",
+    "ingredientes": "huevos, pan, jamón, salsa holandesa, mantequilla",
+    "instrucciones": "Tostar el pan - Pochar los huevos - Montar con jamón y salsa holandesa",
+    "tiempo_preparacion": 30,
+    "dificultad": "media",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "120",
+    "nombre": "Nuggets de pollo",
+    "ingredientes": "pollo, pan rallado, huevo, harina, aceite, especias",
+    "instrucciones": "Cortar el pollo en trozos - Rebozar y freír hasta dorar",
+    "tiempo_preparacion": 25,
+    "dificultad": "facil",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "121",
+    "nombre": "Profiteroles",
+    "ingredientes": "harina, mantequilla, huevos, agua, azúcar, nata",
+    "instrucciones": "Cocinar la masa choux - Rellenar con nata y espolvorear azúcar",
+    "tiempo_preparacion": 60,
+    "dificultad": "dificil",
+    "categoria": "postre"
+  },
+  {
+    "id": "122",
+    "nombre": "Ensalada de rúcula y parmesano",
+    "ingredientes": "rúcula, parmesano, nueces, vinagre balsámico, aceite de oliva",
+    "instrucciones": "Mezclar rúcula con parmesano y nueces - Aliñar con vinagre y aceite",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "123",
+    "nombre": "Sopa de calabacín",
+    "ingredientes": "calabacín, cebolla, patata, caldo, nata, sal",
+    "instrucciones": "Sofreír cebolla y calabacín - Añadir caldo y patata - Cocinar y triturar",
+    "tiempo_preparacion": 35,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "124",
+    "nombre": "Pan de pasas",
+    "ingredientes": "harina, levadura, agua, pasas, azúcar, canela",
+    "instrucciones": "Mezclar todos los ingredientes - Amasar y dejar reposar 1 hora - Hornear a 180°C durante 35 minutos",
+    "tiempo_preparacion": 75,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "125",
+    "nombre": "Bolitas de queso",
+    "ingredientes": "queso, pan rallado, huevo, perejil, aceite",
+    "instrucciones": "Formar bolitas de queso - Rebozar y freír hasta dorar",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "126",
+    "nombre": "Salsa de frambuesa",
+    "ingredientes": "frambuesas, azúcar, limón, agua",
+    "instrucciones": "Cocinar frambuesas con azúcar y agua - Colar y añadir limón",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "127",
+    "nombre": "Té chai",
+    "ingredientes": "té negro, leche, azúcar, canela, jengibre, cardamomo",
+    "instrucciones": "Hervir el té con especias - Añadir leche y azúcar - Colar y servir caliente",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "128",
+    "nombre": "Tostadas con tomate y aceite",
+    "ingredientes": "pan, tomate, aceite de oliva, sal, ajo",
+    "instrucciones": "Tostar el pan - Frotar con ajo y tomate - Aliñar con aceite y sal",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "129",
+    "nombre": "Empanada de atún",
+    "ingredientes": "masa, atún, cebolla, huevo, tomate, aceitunas",
+    "instrucciones": "Rellenar la masa con atún y vegetales - Hornear a 180°C durante 30 minutos",
+    "tiempo_preparacion": 50,
+    "dificultad": "media",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "130",
+    "nombre": "Baklava",
+    "ingredientes": "masa filo, nueces, mantequilla, miel, canela",
+    "instrucciones": "Rellenar capas de masa filo con nueces - Hornear y bañar con miel",
+    "tiempo_preparacion": 60,
+    "dificultad": "dificil",
+    "categoria": "postre"
+  },
+  {
+    "id": "131",
+    "nombre": "Ensalada de espinacas y fresas",
+    "ingredientes": "espinacas, fresas, queso de cabra, nueces, vinagreta",
+    "instrucciones": "Mezclar espinacas con fresas y queso - Aliñar con vinagreta",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "132",
+    "nombre": "Sopa de puerro",
+    "ingredientes": "puerro, patata, cebolla, caldo, nata, sal",
+    "instrucciones": "Sofreír puerro y cebolla - Añadir patata y caldo - Cocinar y triturar",
+    "tiempo_preparacion": 35,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "133",
+    "nombre": "Pan de nueces",
+    "ingredientes": "harina, levadura, nueces, agua, sal, miel",
+    "instrucciones": "Mezclar todos los ingredientes - Amasar y dejar reposar 1 hora - Hornear a 180°C durante 35 minutos",
+    "tiempo_preparacion": 75,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "134",
+    "nombre": "Canapés de aguacate y salmón",
+    "ingredientes": "pan, aguacate, salmón, limón, eneldo",
+    "instrucciones": "Untar pan con aguacate - Añadir salmón y decorar con eneldo y limón",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "135",
+    "nombre": "Salsa de arándanos",
+    "ingredientes": "arándanos, azúcar, agua, limón",
+    "instrucciones": "Cocinar arándanos con azúcar y agua - Colar y añadir limón",
+    "tiempo_preparacion": 20,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "136",
+    "nombre": "Chocolate caliente",
+    "ingredientes": "leche, chocolate, azúcar, canela, nata",
+    "instrucciones": "Calentar la leche con chocolate - Batir hasta disolver - Servir con nata y canela",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "137",
+    "nombre": "Tostadas con huevo pochado",
+    "ingredientes": "pan, huevos, mantequilla, sal, pimienta",
+    "instrucciones": "Tostar el pan - Pochar los huevos - Servir con mantequilla, sal y pimienta",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "138",
+    "nombre": "Sándwich de jamón y queso",
+    "ingredientes": "pan, jamón, queso, mantequilla, mostaza",
+    "instrucciones": "Untar pan con mantequilla y mostaza - Rellenar con jamón y queso - Tostar en sartén",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "139",
+    "nombre": "Tarta de chocolate",
+    "ingredientes": "chocolate, mantequilla, azúcar, huevos, harina, nata",
+    "instrucciones": "Derretir chocolate con mantequilla - Mezclar con huevos y azúcar - Hornear a 180°C durante 30 minutos",
+    "tiempo_preparacion": 50,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "140",
+    "nombre": "Ensalada de canónigos",
+    "ingredientes": "canónigos, tomate cherry, queso, nueces, vinagreta",
+    "instrucciones": "Mezclar canónigos con tomate y queso - Aliñar con vinagreta",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "141",
+    "nombre": "Sopa de coliflor",
+    "ingredientes": "coliflor, cebolla, patata, caldo, nata, sal",
+    "instrucciones": "Sofreír cebolla y coliflor - Añadir patata y caldo - Cocinar y triturar",
+    "tiempo_preparacion": 35,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  },
+  {
+    "id": "142",
+    "nombre": "Pan de semillas",
+    "ingredientes": "harina, levadura, semillas, agua, sal, miel",
+    "instrucciones": "Mezclar todos los ingredientes - Amasar y dejar reposar 1 hora - Hornear a 180°C durante 35 minutos",
+    "tiempo_preparacion": 75,
+    "dificultad": "media",
+    "categoria": "panadería"
+  },
+  {
+    "id": "143",
+    "nombre": "Aceitunas con limón",
+    "ingredientes": "aceitunas, limón, ajo, aceite de oliva, romero",
+    "instrucciones": "Mezclar aceitunas con limón, ajo y romero - Dejar macerar 1 hora",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "aperitivo"
+  },
+  {
+    "id": "144",
+    "nombre": "Salsa de piña",
+    "ingredientes": "piña, azúcar, vinagre, jengibre",
+    "instrucciones": "Triturar piña con azúcar y vinagre - Añadir jengibre rallado",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "salsa"
+  },
+  {
+    "id": "145",
+    "nombre": "Batido de fresa",
+    "ingredientes": "fresa, leche, azúcar, hielo, yogur",
+    "instrucciones": "Licuar fresas con leche y azúcar - Añadir hielo y servir",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "bebida"
+  },
+  {
+    "id": "146",
+    "nombre": "Tostadas con mantequilla y miel",
+    "ingredientes": "pan, mantequilla, miel, canela",
+    "instrucciones": "Tostar el pan - Untar con mantequilla y miel - Espolvorear canela",
+    "tiempo_preparacion": 10,
+    "dificultad": "facil",
+    "categoria": "desayuno"
+  },
+  {
+    "id": "147",
+    "nombre": "Empanada gallega",
+    "ingredientes": "masa, atún, pimiento, cebolla, huevo, aceite",
+    "instrucciones": "Rellenar la masa con atún y vegetales - Hornear a 180°C durante 35 minutos",
+    "tiempo_preparacion": 55,
+    "dificultad": "media",
+    "categoria": "comida rápida"
+  },
+  {
+    "id": "148",
+    "nombre": "Tarta de Santiago",
+    "ingredientes": "almendras, azúcar, huevos, limón, canela",
+    "instrucciones": "Moler almendras con azúcar - Mezclar con huevos y hornear a 180°C durante 30 minutos",
+    "tiempo_preparacion": 50,
+    "dificultad": "media",
+    "categoria": "postre"
+  },
+  {
+    "id": "149",
+    "nombre": "Ensalada de pepino y yogur",
+    "ingredientes": "pepino, yogur, ajo, menta, sal, pimienta",
+    "instrucciones": "Cortar pepino y mezclar con yogur - Añadir ajo, menta y especias",
+    "tiempo_preparacion": 15,
+    "dificultad": "facil",
+    "categoria": "ensalada"
+  },
+  {
+    "id": "150",
+    "nombre": "Sopa de apio",
+    "ingredientes": "apio, patata, cebolla, caldo, nata, sal",
+    "instrucciones": "Sofreír apio y cebolla - Añadir patata y caldo - Cocinar y triturar",
+    "tiempo_preparacion": 35,
+    "dificultad": "facil",
+    "categoria": "sopa"
+  }
+
+  
+]

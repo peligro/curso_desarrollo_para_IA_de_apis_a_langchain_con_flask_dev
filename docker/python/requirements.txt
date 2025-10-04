@@ -18,5 +18,14 @@ pycurl==7.45.3
 PyPDF2==3.0.1
 
 
+# Base de datos vectorial Pinecone
+pinecone-client==3.2.2
+# Modelo para generar embeddings (ej: all-MiniLM-L6-v2)
+sentence-transformers==2.7.0
+# Manejo y análisis de datos
+pandas==2.2.2
+
+
+
 #Flask-SQLAlchemy==3.1.1
 #psycopg2-binary==2.9.9

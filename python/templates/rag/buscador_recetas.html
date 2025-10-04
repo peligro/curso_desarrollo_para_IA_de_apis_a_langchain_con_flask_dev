@@ -1,0 +1,114 @@
+{% extends 'layouts/frontend.html' %}
+
+{% block title %}RAG (Retrieval Augmented Generation){% endblock %}
+
+{% block content %}
+<div class="row">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('rag.rag_index')}}">RAG (Retrieval Augmented Generation)</a></li>
+            <li class="breadcrumb-item active">Buscador de Recetas</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h1>RAG (Retrieval Augmented Generation)</h1>
+        <h4>Ejercicio 2: RAG con Pinecode - Buscador Inteligente de Recetas</h4>
+        <p class="lead">Encuentra recetas usando búsqueda semántica con Pinecone</p>
+
+        <div class="row mb-3">
+    <div class="col-12">
+        <hr />
+        <form action="{{ url_for('rag.actualizar_base_datos') }}" method="post" class="d-inline">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button type="submit" class="btn btn-warning btn-sm">
+                <i class="fas fa-sync-alt"></i> Actualizar Base de Datos desde JSON o API
+            </button>
+        </form>
+        <hr />
+    </div>
+    </div>
+     
+        
+        <form action="{{ url_for('rag.rag_buscador_recetas') }}" method="post">
+            <div class="form-group">
+                <label for="ia">Selecciona la IA:</label>
+                <select name="ia" id="ia" class="form-control">
+                    <option value="Ollama" {% if request.form.ia == 'Ollama' %}selected{% endif %}>Ollama</option>
+                    <option value="Mistral" {% if request.form.ia == 'Mistral' %}selected{% endif %}>Mistral</option>
+                    <option value="Gemini" {% if request.form.ia == 'Gemini' %}selected{% endif %}>Gemini</option>
+                    <option value="Claude" {% if request.form.ia == 'Claude' %}selected{% endif %}>Claude</option>
+                    <option value="Deepseek" {% if request.form.ia == 'Deepseek' %}selected{% endif %}>Deepseek</option>
+                    <option value="OpenAI" {% if request.form.ia == 'OpenAI' %}selected{% endif %}>OpenAI</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="consulta">¿Qué quieres cocinar?</label>
+                <input type="text" name="consulta" class="form-control" 
+                       placeholder="Ej: receta fácil con pollo, postre rápido, comida saludable..." 
+                       value="{{ request.form.consulta or '' }}">
+            </div>
+             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-search"></i> Buscar Recetas
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Mostrar recetas encontradas -->
+{% if recetas_encontradas %}
+<div class="row mt-4">
+    <div class="col-12">
+        <h4>📋 Recetas Encontradas en la Base de Datos usando {{ia}} AI:</h4>
+        <div class="row">
+            {% for receta in recetas_encontradas %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ receta.nombre }}</h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                ⏱️ {{ receta.tiempo_preparacion }} min | 
+                                🎯 {{ receta.dificultad }} | 
+                                📁 {{ receta.categoria }}
+                            </small>
+                        </p>
+                        <p><strong>Ingredientes:</strong> {{ receta.ingredientes }}</p>
+                        <p class="badge badge-info">Similitud: {{ "%.2f"|format(receta.score * 100) }}%</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Mostrar respuesta de la IA -->
+{% if respuesta %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-robot"></i> Recomendaciones de {{ ia }} AI
+                    {% if tiempo_transcurrido %}
+                    <small class="float-right">Tiempo: {{ tiempo_transcurrido }}s</small>
+                    {% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-light border">
+                    {{ respuesta|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
